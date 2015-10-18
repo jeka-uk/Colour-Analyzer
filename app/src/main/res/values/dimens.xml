@@ -1,0 +1,11 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="nav_drawer_width">260dp</dimen>
+    <dimen name="size_title_fragment_data_color">19dp</dimen>
+    <dimen name="top_title_fragment_data_color">25dp</dimen>
+    <dimen name="paddingLeft_format_data_color">20dp</dimen>
+    <dimen name="paddingLeft_data_text_view">100dp</dimen>
+    <dimen name="size_text_format_data_color">14dp</dimen>
+</resources>
