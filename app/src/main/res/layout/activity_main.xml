@@ -30,6 +30,13 @@
         android:id="@+id/data_color_layout"
         />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="285dp"
+        android:id="@+id/transparent_color_layout"
+        />
+
     <cc.trity.floatingactionbutton.FloatingActionsMenu
         android:id="@+id/multiple_actions_down"
         android:layout_width="wrap_content"
@@ -53,7 +60,7 @@
             fab:fab_addButtonColorNormal="@color/colorPrimary"
             fab:fab_addButtonColorPressed="@color/colorPrimaryDark"
             fab:fab_size="mini"
-            fab:fab_title="Gallery"/>
+            fab:fab_title="@string/main_activity_button_gallery"/>
 
         <cc.trity.floatingactionbutton.FloatingActionButton
             android:id="@+id/camera"
@@ -62,7 +69,7 @@
             fab:fab_addButtonColorNormal="@color/colorPrimary"
             fab:fab_addButtonColorPressed="@color/colorPrimaryDark"
             fab:fab_size="mini"
-            fab:fab_title="Camera"/>
+            fab:fab_title="@string/main_activity_button_camera"/>
 
     </cc.trity.floatingactionbutton.FloatingActionsMenu>
 
