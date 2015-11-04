@@ -1,5 +1,7 @@
 package com.example.lenovo.colouranalyzer.common;
 
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -15,6 +17,7 @@ import android.view.WindowManager;
 import com.example.lenovo.colouranalyzer.R;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.text.DecimalFormat;
 
 
@@ -102,7 +105,6 @@ public class CommonUtils {
 
 
     public static String getRgbToHsl(int rgb) {
-
         DecimalFormat numberFormat = new DecimalFormat("#0.00");
         float[] hsl = new float[3];
 
@@ -134,7 +136,6 @@ public class CommonUtils {
         } else {
             s = c / (1 - Math.abs(2.f * l - 1.f));
         }
-
         hsl[0] = h;
         hsl[1] = s;
         hsl[2] = l;
@@ -143,7 +144,6 @@ public class CommonUtils {
     }
 
     public static Uri generateFileUri() {
-
         if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
             return null;
 
@@ -157,4 +157,27 @@ public class CommonUtils {
         File newFile = new File(path.getPath() + File.separator + Constans.NAME_FILE + ".jpg");
         return Uri.fromFile(newFile);
     }
+
+    public static Uri saveToInternalStorage(Bitmap bitmapImage){
+        if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
+            return null;
+
+        File path = new File (Environment.getExternalStorageDirectory(), Constans.FOLDER_NAME);
+        if (! path.exists()){
+            if (! path.mkdirs()){
+                return null;
+            }
+        }
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(Constans.FILE_PATCH);
+            bitmapImage.compress(Bitmap.CompressFormat.JPEG, 75, fos);
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
 }
