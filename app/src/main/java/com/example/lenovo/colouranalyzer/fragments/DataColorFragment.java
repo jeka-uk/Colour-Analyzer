@@ -30,10 +30,10 @@ public class DataColorFragment extends Fragment {
 
 
 
-    private TextView mRgbColor, mHexColor, mHsvColor, mHslColor;
+    private TextView mRgbColor, mHexColor, mHsvColor, mHslColor, mNameItem;
     private ImageView mSampleColor;
     private RelativeLayout mdataLayout;
-    private Button mSendResultToServer;
+    private ImageView mSendResultToServer;
     private boolean mNeedCalculate = false;
 
     @Nullable
@@ -46,8 +46,9 @@ public class DataColorFragment extends Fragment {
      mHexColor = (TextView) view.findViewById(R.id.hex_data_text_view);
      mHsvColor = (TextView) view.findViewById(R.id.hsv_data_text_view);
      mHslColor = (TextView) view.findViewById(R.id.hsl_data_text_view);
+     mNameItem = (TextView) view.findViewById(R.id.name_item);
      mSampleColor = (ImageView) view.findViewById(R.id.image_color);
-     mSendResultToServer = (Button) view.findViewById(R.id.send_result);
+     mSendResultToServer = (ImageView) view.findViewById(R.id.send_result);
      mSendResultToServer.setOnClickListener(onSengResultToServer);
 
         if(mNeedCalculate){
@@ -99,9 +100,15 @@ public class DataColorFragment extends Fragment {
     private Bitmap setImage(File patch) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
+        options.inPreferredConfig = Bitmap.Config.RGB_565;
         BitmapFactory.decodeFile(String.valueOf(patch), options);
         options.inSampleSize = 4;
         options.inJustDecodeBounds = false;
         return BitmapFactory.decodeFile(String.valueOf(patch), options);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 }

@@ -24,7 +24,7 @@
 
     <string name = "main_activity_button_gallery">Галерея</string>
     <string name="main_activity_button_camera">Камера</string>
-    <string name="data_color_button_send_result">Отправить результат на Сервер</string>
+    <string name="data_color_button_send_result">Отправить результат\n на Сервер</string>
     <string name="main_activity_information">SD карта не доступна</string>
 
     <!-- data in fragment_data_color-->

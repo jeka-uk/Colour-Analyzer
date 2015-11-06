@@ -31,6 +31,7 @@ import com.example.lenovo.colouranalyzer.common.CommonUtils;
 import com.example.lenovo.colouranalyzer.common.Constans;
 import com.example.lenovo.colouranalyzer.fragments.CardViewFragment;
 import com.example.lenovo.colouranalyzer.fragments.DataColorFragment;
+import com.example.lenovo.colouranalyzer.fragments.NameOfComposition;
 import com.example.lenovo.colouranalyzer.fragments.TrasperedColorFragment;
 
 import java.io.File;
@@ -54,11 +55,6 @@ public class MainActivity extends AppCompatActivity {
     private TrasperedColorFragment mTrFragment = new TrasperedColorFragment();
     private DataColorFragment mDtFragment = new DataColorFragment();
     private Context mContext = this;
-    private Uri mUri = CommonUtils.generateFileUri();
-
-    Bitmap bmp1, bmp2;
-    Canvas canvas;
-    Paint paint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
             Intent takePhotoFromGallery = new Intent(Intent.ACTION_PICK);
             takePhotoFromGallery.setType("image/*");
             startActivityForResult(takePhotoFromGallery, REQUEST_GALLERY_FOR_NEW_PHOTO);
+
         }
     };
 
@@ -130,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
             CommonUtils.saveToInternalStorage(uriToBitmap(data.getData()));
 
             CommonUtils.startFragmentSlideHorizont(new CardViewFragment(), R.id.card_view_layout, getSupportFragmentManager());
+
             DataColorFragment newFragment = new DataColorFragment();
             newFragment.setmNeedCalculate(true);
             CommonUtils.startFragmentSlideHorizont(newFragment, R.id.data_color_layout, getSupportFragmentManager());
@@ -184,24 +182,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private Bitmap uriToBitmap(Uri selectedFileUri) {
-        Bitmap image = null;
-        try {
-            ParcelFileDescriptor parcelFileDescriptor =
-                    getContentResolver().openFileDescriptor(selectedFileUri, "r");
-            FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-            BitmapFactory.decodeFileDescriptor(fileDescriptor, null, options);
-            options.inSampleSize = 2;
-            options.inJustDecodeBounds = false;
-            image = BitmapFactory.decodeFileDescriptor(fileDescriptor, null, options);
 
-            parcelFileDescriptor.close();
+        Bitmap newBitmap = null;
+
+        try {
+            newBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedFileUri);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return image;
+        return newBitmap;
     }
 
 }
