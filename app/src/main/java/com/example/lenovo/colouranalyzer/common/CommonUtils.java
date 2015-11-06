@@ -41,6 +41,15 @@ public class CommonUtils {
         frTra.commit();
     }
 
+    public static void startFragmentSlideVerticalDownUpWithBakStak(Fragment newFragment, int containerViewId, FragmentManager fragmentManager){
+        FragmentTransaction frTra = fragmentManager.beginTransaction();
+        frTra.setCustomAnimations(R.anim.slide_in_up, R.anim.slide_in_down);
+        frTra.replace(containerViewId, newFragment);
+        frTra.addToBackStack("with bac stak");
+        frTra.commit();
+
+    }
+
     public static void startFragmentTraspered(Fragment newFragment, int containerViewId, FragmentManager fragmentManager){
         FragmentTransaction frTra = fragmentManager.beginTransaction();
         //frTra.setCustomAnimations(R.anim.slide_in_down, R.anim.slide_in_up);

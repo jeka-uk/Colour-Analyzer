@@ -2,12 +2,42 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="10dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    android:layout_marginBottom="10dp"
+    android:id="@+id/name_composition_relative_layout"
 
-    android:background="@color/blue_semi_transparent">
+    android:background="@color/colorPrimaryDark_trasparent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="130dp"
+        android:textSize="20dp"
+        android:textStyle="bold|italic"
+        android:text="@string/name_of_item_fragment_name_copmosition"
+        android:textColor="@color/white"/>
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:id="@+id/name_item"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="200dp"
+        android:background="@color/white"
+        android:textColor="@color/navigationBarColor"
+        android:textColorHint="@color/navigationBarColor"
+        android:hint="@string/name_of_item"
+        android:textSize="20dp"
+        />
+
+    <ImageView
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:id="@+id/bnt_ok"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="300dp"
+        android:src="@drawable/btn_ok_green"/>
 
 
 

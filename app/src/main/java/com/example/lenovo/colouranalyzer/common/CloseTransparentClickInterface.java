@@ -1,6 +1,6 @@
 package com.example.lenovo.colouranalyzer.common;
 
 
-public interface FragmentCloseClickInterface {
+public interface CloseTransparentClickInterface {
     void onClick();
 }

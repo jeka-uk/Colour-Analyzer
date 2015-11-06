@@ -1,6 +1,7 @@
 package com.example.lenovo.colouranalyzer.fragments;
 
 
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -35,6 +36,8 @@ public class DataColorFragment extends Fragment {
     private RelativeLayout mdataLayout;
     private ImageView mSendResultToServer;
     private boolean mNeedCalculate = false;
+    private SharedPreferences sPref;
+    private int mColorRGB;
 
     @Nullable
     @Override
@@ -69,6 +72,7 @@ public class DataColorFragment extends Fragment {
             public void handleMessage(android.os.Message msg) {
                 if(msg != null)
                     setColor(msg.what);
+                    setmColorRGB(msg.what);
                 mdataLayout.setVisibility(View.VISIBLE);
             };
         };
@@ -83,11 +87,12 @@ public class DataColorFragment extends Fragment {
     }
 
     private void setColor(int RGB){
-        mRgbColor.setText(CommonUtils.getRgbToString(RGB));
-        mHexColor.setText(CommonUtils.getRgbToHex(RGB));
-        mHsvColor.setText(CommonUtils.getRgbToHsv(RGB));
-        mSampleColor.setBackgroundColor(Color.parseColor(String.format(CommonUtils.getRgbToHex(RGB))));
-        mHslColor.setText(CommonUtils.getRgbToHsl(RGB));
+
+            mRgbColor.setText(CommonUtils.getRgbToString(RGB));
+            mHexColor.setText(CommonUtils.getRgbToHex(RGB));
+            mHsvColor.setText(CommonUtils.getRgbToHsv(RGB));
+            mSampleColor.setBackgroundColor(Color.parseColor(String.format(CommonUtils.getRgbToHex(RGB))));
+            mHslColor.setText(CommonUtils.getRgbToHsl(RGB));
     }
 
     View.OnClickListener onSengResultToServer = new View.OnClickListener() {
@@ -110,5 +115,23 @@ public class DataColorFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+        sPref = getActivity().getSharedPreferences("COLOR_ANALYZER", getActivity().MODE_PRIVATE);
+        SharedPreferences.Editor ed = sPref.edit();
+        ed.putInt("RGB_VALUE", mColorRGB);
+        ed.commit();
+    }
+
+    public void setmColorRGB(int mColorRGB) {
+        this.mColorRGB = mColorRGB;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        sPref = getActivity().getSharedPreferences("COLOR_ANALYZER", getActivity().MODE_PRIVATE);
+        if(mColorRGB == 0 && !sPref.equals(null)){
+            setmColorRGB(sPref.getInt("RGB_VALUE", 0));
+            setColor(mColorRGB);
+        }
     }
 }

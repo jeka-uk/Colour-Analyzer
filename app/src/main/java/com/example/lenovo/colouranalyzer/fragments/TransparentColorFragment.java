@@ -10,14 +10,13 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.example.lenovo.colouranalyzer.R;
-import com.example.lenovo.colouranalyzer.common.CommonUtils;
-import com.example.lenovo.colouranalyzer.common.FragmentCloseClickInterface;
+import com.example.lenovo.colouranalyzer.common.CloseTransparentClickInterface;
 
 
 public class TransparentColorFragment extends Fragment {
 
     private RelativeLayout mTransparentLayout;
-    private FragmentCloseClickInterface mCloseTranspare;
+    private CloseTransparentClickInterface mCloseTranspare;
 
     @Nullable
     @Override
@@ -30,7 +29,7 @@ public class TransparentColorFragment extends Fragment {
         return view;
     }
 
-    public void setmCloseTranspare(FragmentCloseClickInterface mCloseTranspare) {
+    public void setmCloseTranspare(CloseTransparentClickInterface mCloseTranspare) {
         this.mCloseTranspare = mCloseTranspare;
     }
 

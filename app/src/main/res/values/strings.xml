@@ -27,6 +27,8 @@
     <string name="main_activity_button_camera">Camera</string>
     <string name="data_color_button_send_result">Send result to Server</string>
     <string name="main_activity_information">SD card not available</string>
+    <string name="name_of_item_fragment_name_copmosition">Input name of item</string>
+    <string name="name_of_item">Name of item</string>
 
     <!-- data in fragment_data_color-->
 
