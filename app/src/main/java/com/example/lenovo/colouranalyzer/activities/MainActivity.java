@@ -2,25 +2,14 @@ package com.example.lenovo.colouranalyzer.activities;
 
 
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PorterDuffXfermode;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
-import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,23 +17,17 @@ import android.widget.Toast;
 
 import com.example.lenovo.colouranalyzer.R;
 import com.example.lenovo.colouranalyzer.common.CommonUtils;
-import com.example.lenovo.colouranalyzer.common.Constans;
+import com.example.lenovo.colouranalyzer.common.FragmentCloseClickInterface;
 import com.example.lenovo.colouranalyzer.fragments.CardViewFragment;
 import com.example.lenovo.colouranalyzer.fragments.DataColorFragment;
-import com.example.lenovo.colouranalyzer.fragments.NameOfComposition;
-import com.example.lenovo.colouranalyzer.fragments.TrasperedColorFragment;
+import com.example.lenovo.colouranalyzer.fragments.TransparentColorFragment;
 
-import java.io.File;
-import java.io.FileDescriptor;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 import cc.trity.floatingactionbutton.FloatingActionButton;
 import cc.trity.floatingactionbutton.FloatingActionsMenu;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FragmentCloseClickInterface {
 
     private Toolbar mToolbar;
     private FloatingActionButton mCamera, mGallery;
@@ -52,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private final static int REQUEST_GALLERY_FOR_NEW_PHOTO = 2;
     private FloatingActionsMenu mMainButtonMenu;
     private CardViewFragment mCdFragment = new CardViewFragment();
-    private TrasperedColorFragment mTrFragment = new TrasperedColorFragment();
+    private TransparentColorFragment mTrFragment = new TransparentColorFragment();
     private DataColorFragment mDtFragment = new DataColorFragment();
     private Context mContext = this;
 
@@ -137,18 +120,24 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionsMenu.OnFloatingActionsMenuUpdateListener onTransparent = new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
         @Override
         public void onMenuExpanded() {
-            CommonUtils.startFragmentTraspered(mTrFragment, R.id.transparent_color_layout, getSupportFragmentManager());
+            startTranspa();
         }
 
         @Override
         public void onMenuCollapsed() {
-            CommonUtils.closeFragmentTraspered(mDtFragment, mTrFragment, R.id.data_color_layout, getSupportFragmentManager());
+            getSupportFragmentManager().popBackStack();
         }
     };
 
     private void closeMainButtonMenu(){
         CommonUtils.closeFragmentTraspered(mDtFragment, mTrFragment, R.id.data_color_layout, getSupportFragmentManager());
         mMainButtonMenu.collapse();
+    }
+
+    private void startTranspa(){
+        TransparentColorFragment newFragment = new TransparentColorFragment();
+        newFragment.setmCloseTranspare(this);
+        CommonUtils.startFragmentTraspered(newFragment, R.id.transparent_color_layout, getSupportFragmentManager());
     }
 
 
@@ -193,4 +182,15 @@ public class MainActivity extends AppCompatActivity {
         return newBitmap;
     }
 
+    @Override
+    public void onClick() {
+        mMainButtonMenu.collapse();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        mMainButtonMenu.collapse();
+
+    }
 }

@@ -45,7 +45,7 @@ public class CommonUtils {
         FragmentTransaction frTra = fragmentManager.beginTransaction();
         //frTra.setCustomAnimations(R.anim.slide_in_down, R.anim.slide_in_up);
         frTra.replace(containerViewId, newFragment);
-        //frTra.addToBackStack(null);
+        frTra.addToBackStack("transpare");
         frTra.commit();
     }
 
