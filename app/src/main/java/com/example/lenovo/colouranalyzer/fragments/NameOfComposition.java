@@ -1,6 +1,7 @@
 package com.example.lenovo.colouranalyzer.fragments;
 
 
+import android.content.SharedPreferences;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,12 +14,15 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.example.lenovo.colouranalyzer.R;
+import com.example.lenovo.colouranalyzer.common.SetNameItem;
 
 public class NameOfComposition extends Fragment {
 
     private RelativeLayout mCompositionlayout;
     private ImageView mBntOk;
     private EditText mNameItem;
+    private SetNameItem mSetNameItem;
+    private SharedPreferences sPref;
 
     @Nullable
     @Override
@@ -44,8 +48,22 @@ public class NameOfComposition extends Fragment {
     View.OnClickListener onBntOk = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(getFragmentManager() != null)
-                getFragmentManager().popBackStack();
+            if(mNameItem.getText().length() != 0){
+                mSetNameItem.addName(mNameItem.getText().toString());
+                sPref = getActivity().getSharedPreferences("COLOR_ANALYZER", getActivity().MODE_PRIVATE);
+                SharedPreferences.Editor ed = sPref.edit();
+                ed.putString("NAME_ITEM", mNameItem.getText().toString());
+                ed.commit();
+
+                if(getFragmentManager() != null)
+                    getFragmentManager().popBackStack();
+            }else{
+
+            }
         }
     };
+
+    public void setmSetNameItem(SetNameItem mSetNameItem) {
+        this.mSetNameItem = mSetNameItem;
+    }
 }

@@ -158,7 +158,7 @@
             android:id="@+id/name_item"
             android:layout_width="95dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="198dp"
+            android:layout_marginTop="190dp"
             android:layout_marginLeft="225dp"
             android:textSize="@dimen/size_text_format_data_color"
             android:textStyle="bold|italic"

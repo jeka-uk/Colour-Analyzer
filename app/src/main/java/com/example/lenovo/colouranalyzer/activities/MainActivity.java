@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.example.lenovo.colouranalyzer.R;
 import com.example.lenovo.colouranalyzer.common.CloseTransparentClickInterface;
 import com.example.lenovo.colouranalyzer.common.CommonUtils;
 import com.example.lenovo.colouranalyzer.common.Constans;
+import com.example.lenovo.colouranalyzer.common.SetNameItem;
 import com.example.lenovo.colouranalyzer.fragments.CardViewFragment;
 import com.example.lenovo.colouranalyzer.fragments.DataColorFragment;
 import com.example.lenovo.colouranalyzer.fragments.NameOfComposition;
@@ -31,7 +33,7 @@ import java.io.IOException;
 import cc.trity.floatingactionbutton.FloatingActionButton;
 import cc.trity.floatingactionbutton.FloatingActionsMenu;
 
-public class MainActivity extends AppCompatActivity implements CloseTransparentClickInterface {
+public class MainActivity extends AppCompatActivity implements CloseTransparentClickInterface, SetNameItem {
 
     private Toolbar mToolbar;
     private FloatingActionButton mCamera, mGallery;
@@ -59,8 +61,6 @@ public class MainActivity extends AppCompatActivity implements CloseTransparentC
         mGallery.setOnClickListener(onGallery);
         mMainButtonMenu = (FloatingActionsMenu) findViewById(R.id.multiple_actions_down);
         mMainButtonMenu.setOnFloatingActionsMenuUpdateListener(onTransparent);
-
-
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -107,7 +107,8 @@ public class MainActivity extends AppCompatActivity implements CloseTransparentC
 
         if(requestCode == REQUEST_CAMERA_FOR_NEW_PHOTO && resultCode == RESULT_OK){
 
-            CommonUtils.startFragmentSlideVerticalDownUpWithBakStak(new NameOfComposition(), R.id.name_composition_layout, getSupportFragmentManager());
+            //CommonUtils.startFragmentSlideVerticalDownUpWithBakStak(new NameOfComposition(), R.id.name_composition_layout, getSupportFragmentManager());
+            startNameOfCompasition();
             CommonUtils.startFragmentSlideHorizont(new CardViewFragment(), R.id.card_view_layout, getSupportFragmentManager());
             DataColorFragment newFragment = new DataColorFragment();
             newFragment.setmNeedCalculate(true);
@@ -127,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements CloseTransparentC
             };
                 new Thread(new Runnable() {
                     public void run() {
-                        CommonUtils.startFragmentSlideVerticalDownUpWithBakStak(new NameOfComposition(), R.id.name_composition_layout, getSupportFragmentManager());
+                        startNameOfCompasition();
                         CommonUtils.saveToInternalStorage(uriToBitmap(data.getData()));
                         mHandler.sendEmptyMessage(5);
                     }
@@ -156,6 +157,12 @@ public class MainActivity extends AppCompatActivity implements CloseTransparentC
         TransparentColorFragment newFragment = new TransparentColorFragment();
         newFragment.setmCloseTranspare(this);
         CommonUtils.startFragmentTraspered(newFragment, R.id.transparent_color_layout, getSupportFragmentManager());
+    }
+
+    private void startNameOfCompasition(){
+        NameOfComposition newFragment = new NameOfComposition();
+        newFragment.setmSetNameItem(this);
+        CommonUtils.startFragmentSlideVerticalDownUpWithBakStak(newFragment, R.id.name_composition_layout, getSupportFragmentManager());
     }
 
 
@@ -190,7 +197,6 @@ public class MainActivity extends AppCompatActivity implements CloseTransparentC
 
 
     private Bitmap uriToBitmap(Uri selectedFileUri) {
-
         Bitmap newBitmap = null;
 
         try {
@@ -211,5 +217,12 @@ public class MainActivity extends AppCompatActivity implements CloseTransparentC
         super.onBackPressed();
         mMainButtonMenu.collapse();
 
+    }
+
+    @Override
+    public void addName(String name) {
+        DataColorFragment newFragment = new DataColorFragment();
+        newFragment.setmNeedCalculate(true);
+        CommonUtils.startFragmentSlideHorizont(newFragment, R.id.data_color_layout, getSupportFragmentManager());
     }
 }

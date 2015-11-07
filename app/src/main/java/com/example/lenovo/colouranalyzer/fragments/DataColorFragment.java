@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.example.lenovo.colouranalyzer.R;
 import com.example.lenovo.colouranalyzer.common.CommonUtils;
 import com.example.lenovo.colouranalyzer.common.Constans;
+import com.example.lenovo.colouranalyzer.common.SetNameItem;
 
 import java.io.File;
 
@@ -131,7 +132,12 @@ public class DataColorFragment extends Fragment {
         sPref = getActivity().getSharedPreferences("COLOR_ANALYZER", getActivity().MODE_PRIVATE);
         if(mColorRGB == 0 && !sPref.equals(null)){
             setmColorRGB(sPref.getInt("RGB_VALUE", 0));
+            mNameItem.setText(sPref.getString("NAME_ITEM", "Name"));
             setColor(mColorRGB);
         }
+    }
+
+    public void setName(String name){
+        mNameItem.setText(name);
     }
 }
