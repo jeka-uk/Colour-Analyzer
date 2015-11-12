@@ -3,6 +3,7 @@ package com.example.lenovo.colouranalyzer.common;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.net.Uri;
@@ -16,6 +17,8 @@ import android.view.WindowManager;
 
 import com.example.lenovo.colouranalyzer.R;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -172,7 +175,6 @@ public class CommonUtils {
     public static Uri saveToInternalStorage(Bitmap bitmapImage){
         if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
             return null;
-
         File path = new File (Environment.getExternalStorageDirectory(), Constans.FOLDER_NAME);
         if (! path.exists()){
             if (! path.mkdirs()){
@@ -189,5 +191,18 @@ public class CommonUtils {
         }
 
         return null;
+    }
+
+    public static byte[] convertImageToByte(Bitmap bitmap){
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        //byte imageInByte[] = stream.toByteArray();
+        return stream.toByteArray();
+    }
+
+
+    public static Bitmap convertByteToImage(byte[] outImage){
+        ByteArrayInputStream imageStream = new ByteArrayInputStream(outImage);
+        return BitmapFactory.decodeStream(imageStream);
     }
 }

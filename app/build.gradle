@@ -31,6 +31,8 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.0.1'
     compile 'com.android.support:cardview-v7:21.0.+'
     compile 'io.reactivex:rxandroid:0.24.0'
+    compile 'com.j256.ormlite:ormlite-android:4.45'
+    compile 'com.j256.ormlite:ormlite-core:4.45'
 
     compile 'cc.trity.floatingactionbutton:library:1.0.0'
 

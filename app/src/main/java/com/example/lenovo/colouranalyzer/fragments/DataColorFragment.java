@@ -23,22 +23,26 @@ import android.widget.TextView;
 import com.example.lenovo.colouranalyzer.R;
 import com.example.lenovo.colouranalyzer.common.CommonUtils;
 import com.example.lenovo.colouranalyzer.common.Constans;
-import com.example.lenovo.colouranalyzer.common.SetNameItem;
+import com.example.lenovo.colouranalyzer.db.ColorItem;
+import com.example.lenovo.colouranalyzer.db.DatabaseHelper;
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.RuntimeExceptionDao;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 
 
 public class DataColorFragment extends Fragment {
-
-
 
     private TextView mRgbColor, mHexColor, mHsvColor, mHslColor, mNameItem;
     private ImageView mSampleColor;
     private RelativeLayout mdataLayout;
     private ImageView mSendResultToServer;
     private boolean mNeedCalculate = false;
+    private boolean mSaveData = false;
     private SharedPreferences sPref;
     private int mColorRGB;
+    private DatabaseHelper dbHelper;
 
     @Nullable
     @Override
@@ -60,13 +64,19 @@ public class DataColorFragment extends Fragment {
         }else{
             mdataLayout.setVisibility(View.VISIBLE);
         }
-
         return view;
     }
+
 
     public void setmNeedCalculate(boolean mNeedCalculate) {
         this.mNeedCalculate = mNeedCalculate;
     }
+
+    public void setmSaveData(boolean mSaveData){
+        this.mSaveData = mSaveData;
+    }
+
+
 
     private void calculateColor(){
         Handler mHandler = new Handler() {
@@ -77,7 +87,6 @@ public class DataColorFragment extends Fragment {
                 mdataLayout.setVisibility(View.VISIBLE);
             };
         };
-
         if (Constans.FILE_PATCH.exists()) {
             new Thread(new Runnable() {
                 public void run() {
@@ -87,8 +96,8 @@ public class DataColorFragment extends Fragment {
         }
     }
 
-    private void setColor(int RGB){
 
+    private void setColor(int RGB){
             mRgbColor.setText(CommonUtils.getRgbToString(RGB));
             mHexColor.setText(CommonUtils.getRgbToHex(RGB));
             mHsvColor.setText(CommonUtils.getRgbToHsv(RGB));
@@ -96,12 +105,13 @@ public class DataColorFragment extends Fragment {
             mHslColor.setText(CommonUtils.getRgbToHsl(RGB));
     }
 
+
     View.OnClickListener onSengResultToServer = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
         }
     };
+
 
     private Bitmap setImage(File patch) {
         BitmapFactory.Options options = new BitmapFactory.Options();
@@ -113,31 +123,41 @@ public class DataColorFragment extends Fragment {
         return BitmapFactory.decodeFile(String.valueOf(patch), options);
     }
 
+
     @Override
     public void onPause() {
         super.onPause();
-        sPref = getActivity().getSharedPreferences("COLOR_ANALYZER", getActivity().MODE_PRIVATE);
+        sPref = getActivity().getSharedPreferences(Constans.COLOR_ANALYZER, getActivity().MODE_PRIVATE);
         SharedPreferences.Editor ed = sPref.edit();
-        ed.putInt("RGB_VALUE", mColorRGB);
+        ed.putInt(Constans.RGB_VALUE, mColorRGB);
         ed.commit();
     }
+
 
     public void setmColorRGB(int mColorRGB) {
         this.mColorRGB = mColorRGB;
     }
 
+
     @Override
     public void onResume() {
         super.onResume();
-        sPref = getActivity().getSharedPreferences("COLOR_ANALYZER", getActivity().MODE_PRIVATE);
+        sPref = getActivity().getSharedPreferences(Constans.COLOR_ANALYZER, getActivity().MODE_PRIVATE);
         if(mColorRGB == 0 && !sPref.equals(null)){
-            setmColorRGB(sPref.getInt("RGB_VALUE", 0));
-            mNameItem.setText(sPref.getString("NAME_ITEM", "Name"));
+            setmColorRGB(sPref.getInt(Constans.RGB_VALUE, 0));
+            mNameItem.setText(sPref.getString(Constans.NAME_ITEM, "Name"));
             setColor(mColorRGB);
+        }
+
+        if(mSaveData){
+            saveDataToDb(sPref.getString(Constans.NAME_ITEM, "Name"), mColorRGB, CommonUtils.getRgbToHex(mColorRGB), CommonUtils.convertImageToByte(setImage(Constans.FILE_PATCH)));
         }
     }
 
-    public void setName(String name){
-        mNameItem.setText(name);
+
+    private void saveDataToDb(String nameValue, int rgbValue, String hexValue, byte[] imageValue){
+        dbHelper = (DatabaseHelper) OpenHelperManager.getHelper(getActivity(), DatabaseHelper.class);
+        final RuntimeExceptionDao<ColorItem, Integer> studDao = dbHelper.getStudRuntimeExceptionDao();
+        studDao.create(new ColorItem(nameValue, rgbValue, hexValue, imageValue));
     }
 }

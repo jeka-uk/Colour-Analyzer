@@ -9,4 +9,8 @@ public class Constans {
     public static final String FOLDER_NAME = "Colour analyzer";
     public static final String NAME_FILE = "file";
     public static final File FILE_PATCH = new File(String.valueOf(Environment.getExternalStorageDirectory() + "/" + Constans.FOLDER_NAME + "/" + Constans.NAME_FILE + ".jpg"));
+
+    public static final String NAME_ITEM = "name_item";
+    public static final String COLOR_ANALYZER = "color_analyzer";
+    public static final String RGB_VALUE = "rgb_value";
 }

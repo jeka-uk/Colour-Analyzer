@@ -28,6 +28,7 @@
     <string name="main_activity_information">SD карта не доступна</string>
     <string name="name_of_item_fragment_name_copmosition">Введите название лота</string>
     <string name="name_of_item">Название лота</string>
+    <string name="button_information_available_sd">Ок</string>
 
     <!-- data in fragment_data_color-->
 

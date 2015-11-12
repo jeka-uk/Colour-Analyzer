@@ -16,8 +16,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.example.lenovo.colouranalyzer.R;
+import com.example.lenovo.colouranalyzer.common.CommonUtils;
 import com.example.lenovo.colouranalyzer.common.Constans;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 
 public class CardViewFragment extends Fragment {
@@ -34,7 +37,6 @@ public class CardViewFragment extends Fragment {
         if (Constans.FILE_PATCH.exists()) {
             mImageView.setImageBitmap(setImage(Constans.FILE_PATCH));
         }
-
         return view;
     }
 

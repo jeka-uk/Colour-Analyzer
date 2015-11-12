@@ -29,6 +29,7 @@
     <string name="main_activity_information">SD card not available</string>
     <string name="name_of_item_fragment_name_copmosition">Input name of item</string>
     <string name="name_of_item">Name of item</string>
+    <string name="button_information_available_sd">Ok</string>
 
     <!-- data in fragment_data_color-->
 

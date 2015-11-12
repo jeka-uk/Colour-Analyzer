@@ -28,8 +28,8 @@
         android:textColor="@color/navigationBarColor"
         android:textColorHint="@color/navigationBarColor"
         android:hint="@string/name_of_item"
-        android:textSize="20dp"
-        />
+        android:textSize="20dp"/>
+
 
     <ImageView
         android:layout_width="65dp"

@@ -163,7 +163,7 @@
             android:textSize="@dimen/size_text_format_data_color"
             android:textStyle="bold|italic"
             android:text="Name:"
-            android:maxLength="12"
+            android:maxLength="11"
             android:textColor="@color/navigationBarColor"/>
 
 
