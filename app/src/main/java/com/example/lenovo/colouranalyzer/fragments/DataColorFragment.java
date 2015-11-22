@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.example.lenovo.colouranalyzer.R;
 import com.example.lenovo.colouranalyzer.common.CommonUtils;
 import com.example.lenovo.colouranalyzer.common.Constans;
+import com.example.lenovo.colouranalyzer.common.TransImageButton;
 import com.example.lenovo.colouranalyzer.db.ColorItem;
 import com.example.lenovo.colouranalyzer.db.DatabaseHelper;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
@@ -37,7 +38,7 @@ public class DataColorFragment extends Fragment {
     private TextView mRgbColor, mHexColor, mHsvColor, mHslColor, mNameItem;
     private ImageView mSampleColor;
     private RelativeLayout mdataLayout;
-    private ImageView mSendResultToServer;
+    private TransImageButton mSendResultToServer;
     private boolean mNeedCalculate = false;
     private boolean mSaveData = false;
     private SharedPreferences sPref;
@@ -56,7 +57,7 @@ public class DataColorFragment extends Fragment {
      mHslColor = (TextView) view.findViewById(R.id.hsl_data_text_view);
      mNameItem = (TextView) view.findViewById(R.id.name_item);
      mSampleColor = (ImageView) view.findViewById(R.id.image_color);
-     mSendResultToServer = (ImageView) view.findViewById(R.id.send_result);
+     mSendResultToServer = (TransImageButton) view.findViewById(R.id.send_result);
      mSendResultToServer.setOnClickListener(onSengResultToServer);
 
         if(mNeedCalculate){
@@ -109,6 +110,7 @@ public class DataColorFragment extends Fragment {
     View.OnClickListener onSengResultToServer = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            CommonUtils.startFragmentSlideVerticalDownUpWithBackStack(new SendDataToServer(), R.id.send_data_fragment, getFragmentManager());
         }
     };
 

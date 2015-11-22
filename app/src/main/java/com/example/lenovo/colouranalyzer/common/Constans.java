@@ -13,4 +13,6 @@ public class Constans {
     public static final String NAME_ITEM = "name_item";
     public static final String COLOR_ANALYZER = "color_analyzer";
     public static final String RGB_VALUE = "rgb_value";
+    public static final String NAME_DB_SQL = "Color";
+    public static final String NAME_TABLE_SQL = "color_table";
 }

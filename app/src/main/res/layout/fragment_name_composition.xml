@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/name_composition_relative_layout"
-
     android:background="@color/colorPrimaryDark_trasparent">
 
     <TextView
@@ -31,7 +30,7 @@
         android:textSize="20dp"/>
 
 
-    <ImageView
+    <com.example.lenovo.colouranalyzer.common.TransImageButton
         android:layout_width="65dp"
         android:layout_height="65dp"
         android:id="@+id/bnt_ok"

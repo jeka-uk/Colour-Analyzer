@@ -44,7 +44,7 @@ public class CommonUtils {
         frTra.commit();
     }
 
-    public static void startFragmentSlideVerticalDownUpWithBakStak(Fragment newFragment, int containerViewId, FragmentManager fragmentManager){
+    public static void startFragmentSlideVerticalDownUpWithBackStack(Fragment newFragment, int containerViewId, FragmentManager fragmentManager){
         FragmentTransaction frTra = fragmentManager.beginTransaction();
         frTra.setCustomAnimations(R.anim.slide_in_up, R.anim.slide_in_down);
         frTra.replace(containerViewId, newFragment);

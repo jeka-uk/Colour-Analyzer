@@ -21,7 +21,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/card_view_layout"
+        android:id="@+id/card_view_fragment"
         android:visibility="visible"
         />
 
@@ -30,14 +30,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="285dp"
-        android:id="@+id/data_color_layout"
+        android:id="@+id/data_color_fragment"
         />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="285dp"
-        android:id="@+id/transparent_color_layout"
+        android:id="@+id/transparent_color_fragment"
         />
 
     <cc.trity.floatingactionbutton.FloatingActionsMenu
@@ -82,6 +82,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/name_composition_layout"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/send_data_fragment"/>
 
 
 

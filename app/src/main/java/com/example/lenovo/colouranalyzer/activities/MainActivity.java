@@ -13,7 +13,6 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,14 +21,11 @@ import com.example.lenovo.colouranalyzer.R;
 import com.example.lenovo.colouranalyzer.common.OnClickTransparent;
 import com.example.lenovo.colouranalyzer.common.CommonUtils;
 import com.example.lenovo.colouranalyzer.common.SetNameItem;
-import com.example.lenovo.colouranalyzer.db.ColorItem;
-import com.example.lenovo.colouranalyzer.db.DatabaseHelper;
 import com.example.lenovo.colouranalyzer.fragments.CardViewFragment;
 import com.example.lenovo.colouranalyzer.fragments.DataColorFragment;
 import com.example.lenovo.colouranalyzer.fragments.NameOfComposition;
 import com.example.lenovo.colouranalyzer.fragments.TransparentColorFragment;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.j256.ormlite.dao.RuntimeExceptionDao;
 
 import java.io.IOException;
 
@@ -47,7 +43,6 @@ public class MainActivity extends AppCompatActivity implements OnClickTransparen
     private TransparentColorFragment mTrFragment = new TransparentColorFragment();
     private DataColorFragment mDtFragment = new DataColorFragment();
     private Context mContext = this;
-   // private DatabaseHelper dbHelper;
 
 
     @Override
@@ -70,8 +65,8 @@ public class MainActivity extends AppCompatActivity implements OnClickTransparen
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        CommonUtils.startFragmentSlideHorizont(mCdFragment, R.id.card_view_layout, getSupportFragmentManager());
-        CommonUtils.startFragmentSlideVerticalDownUp(mDtFragment, R.id.data_color_layout, getSupportFragmentManager());
+        CommonUtils.startFragmentSlideHorizont(mCdFragment, R.id.card_view_fragment, getSupportFragmentManager());
+        CommonUtils.startFragmentSlideVerticalDownUp(mDtFragment, R.id.data_color_fragment, getSupportFragmentManager());
     }
 
     View.OnClickListener onCamera = new View.OnClickListener() {
@@ -110,20 +105,20 @@ public class MainActivity extends AppCompatActivity implements OnClickTransparen
 
         if(requestCode == REQUEST_CAMERA_FOR_NEW_PHOTO && resultCode == RESULT_OK){
             startNameOfCompasition();
-            CommonUtils.startFragmentSlideHorizont(new CardViewFragment(), R.id.card_view_layout, getSupportFragmentManager());
+            CommonUtils.startFragmentSlideHorizont(new CardViewFragment(), R.id.card_view_fragment, getSupportFragmentManager());
             DataColorFragment newFragment = new DataColorFragment();
             newFragment.setmNeedCalculate(true);
-            CommonUtils.startFragmentSlideHorizont(newFragment, R.id.data_color_layout, getSupportFragmentManager());
+            CommonUtils.startFragmentSlideHorizont(newFragment, R.id.data_color_fragment, getSupportFragmentManager());
         }
 
         if(requestCode == REQUEST_GALLERY_FOR_NEW_PHOTO && resultCode == RESULT_OK){
             Handler mHandler = new Handler() {
                 public void handleMessage(android.os.Message msg) {
                     if(msg != null)
-                    CommonUtils.startFragmentSlideHorizont(new CardViewFragment(), R.id.card_view_layout, getSupportFragmentManager());
+                    CommonUtils.startFragmentSlideHorizont(new CardViewFragment(), R.id.card_view_fragment, getSupportFragmentManager());
                     DataColorFragment newFragment = new DataColorFragment();
                     newFragment.setmNeedCalculate(true);
-                    CommonUtils.startFragmentSlideHorizont(newFragment, R.id.data_color_layout, getSupportFragmentManager());
+                    CommonUtils.startFragmentSlideHorizont(newFragment, R.id.data_color_fragment, getSupportFragmentManager());
                 };
             };
                 new Thread(new Runnable() {
@@ -151,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements OnClickTransparen
 
 
     private void closeMainButtonMenu(){
-        CommonUtils.closeFragmentTraspered(mDtFragment, mTrFragment, R.id.data_color_layout, getSupportFragmentManager());
+        CommonUtils.closeFragmentTraspered(mDtFragment, mTrFragment, R.id.data_color_fragment, getSupportFragmentManager());
         mMainButtonMenu.collapse();
     }
 
@@ -159,14 +154,14 @@ public class MainActivity extends AppCompatActivity implements OnClickTransparen
     private void startTranspa(){
         TransparentColorFragment newFragment = new TransparentColorFragment();
         newFragment.setmCloseTranspare(this);
-        CommonUtils.startFragmentTraspered(newFragment, R.id.transparent_color_layout, getSupportFragmentManager());
+        CommonUtils.startFragmentTraspered(newFragment, R.id.transparent_color_fragment, getSupportFragmentManager());
     }
 
 
     private void startNameOfCompasition(){
         NameOfComposition newFragment = new NameOfComposition();
         newFragment.setmSetNameItem(this);
-        CommonUtils.startFragmentSlideVerticalDownUpWithBakStak(newFragment, R.id.name_composition_layout, getSupportFragmentManager());
+        CommonUtils.startFragmentSlideVerticalDownUpWithBackStack(newFragment, R.id.name_composition_layout, getSupportFragmentManager());
     }
 
 
@@ -230,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements OnClickTransparen
         DataColorFragment newFragment = new DataColorFragment();
         newFragment.setmNeedCalculate(true);
         newFragment.setmSaveData(true);
-        CommonUtils.startFragmentSlideHorizont(newFragment, R.id.data_color_layout, getSupportFragmentManager());
+        CommonUtils.startFragmentSlideHorizont(newFragment, R.id.data_color_fragment, getSupportFragmentManager());
     }
 
     private void informationSelectedUsers() {
@@ -244,11 +239,6 @@ public class MainActivity extends AppCompatActivity implements OnClickTransparen
                 }).create().show();
     }
 
-    /*private void saveDataToDb(String nameValue, int rgbValue, String hexValue, byte imageValue){
-        dbHelper = (DatabaseHelper) OpenHelperManager.getHelper(this,DatabaseHelper.class);
-        final RuntimeExceptionDao<ColorItem, Integer> studDao = dbHelper.getStudRuntimeExceptionDao();
-        studDao.create(new ColorItem(nameValue, rgbValue, hexValue, imageValue));
-    }*/
 
     @Override
     protected void onDestroy() {
