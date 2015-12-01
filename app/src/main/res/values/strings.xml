@@ -30,6 +30,13 @@
     <string name="name_of_item_fragment_name_copmosition">Input name of item</string>
     <string name="name_of_item">Name of item</string>
     <string name="button_information_available_sd">Ok</string>
+    <string name="name_of_composition_activity_information">This name already exists!</string>
+    <string name="title_sevd_to_sql">Sing in to SQL Server</string>
+    <string name="title_information_network">Mobile data turned off</string>
+    <string name="message_information_network">Turn on mobile data or use Wi-Fi for completion this actions.</string>
+    <string name="button_ok_information_network">OK</string>
+    <string name="checbox__title_seve_to_sql">Save IP</string>
+    <string name="send_to_sql_button">Sing in</string>
 
     <!-- data in fragment_data_color-->
 

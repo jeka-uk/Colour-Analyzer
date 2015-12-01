@@ -5,7 +5,46 @@
     android:id="@+id/name_composition_relative_layout"
     android:background="@color/colorPrimaryDark_trasparent">
 
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="245dp"
+        android:layout_marginTop="58dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginBottom="3dp"
+        android:background="@color/background"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/colorPrimary"/>
+
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="65dp"
+        android:textSize="18dp"
+        android:textStyle="bold|italic"
+        android:text="@string/name_of_item_fragment_name_copmosition"
+        android:textColor="@color/white"/>
+
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/white"/>
+
+    <!--<TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -13,10 +52,10 @@
         android:textSize="20dp"
         android:textStyle="bold|italic"
         android:text="@string/name_of_item_fragment_name_copmosition"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"/>-->
 
 
-    <EditText
+    <!--<EditText
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:id="@+id/name_item"
@@ -27,16 +66,39 @@
         android:textColor="@color/navigationBarColor"
         android:textColorHint="@color/navigationBarColor"
         android:hint="@string/name_of_item"
-        android:textSize="20dp"/>
+        android:textSize="20dp"/>-->
 
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:id="@+id/name_item"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="149.9dp"
+        android:background="@drawable/lost_focus_style"
+        android:textColor="@color/navigationBarColor"
+        android:textCursorDrawable="@drawable/color_cursor"
+        android:textColorHint="@color/background"
+        android:hint="@string/name_of_item"
+        android:textSize="18dp"/>
 
     <com.example.lenovo.colouranalyzer.common.TransImageButton
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/bnt_ok"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="220dp"
+        android:src="@drawable/btn_ok_green"/>
+
+
+   <!-- <com.example.lenovo.colouranalyzer.common.TransImageButton
         android:layout_width="65dp"
         android:layout_height="65dp"
         android:id="@+id/bnt_ok"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="300dp"
-        android:src="@drawable/btn_ok_green"/>
+        android:src="@drawable/btn_ok_green"/>-->
 
 
 

@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -28,9 +29,13 @@ import com.example.lenovo.colouranalyzer.db.ColorItem;
 import com.example.lenovo.colouranalyzer.db.DatabaseHelper;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
+import com.j256.ormlite.stmt.QueryBuilder;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class DataColorFragment extends Fragment {
@@ -111,6 +116,7 @@ public class DataColorFragment extends Fragment {
         @Override
         public void onClick(View v) {
             CommonUtils.startFragmentSlideVerticalDownUpWithBackStack(new SendDataToServer(), R.id.send_data_fragment, getFragmentManager());
+
         }
     };
 
@@ -158,8 +164,10 @@ public class DataColorFragment extends Fragment {
 
 
     private void saveDataToDb(String nameValue, int rgbValue, String hexValue, byte[] imageValue){
-        dbHelper = (DatabaseHelper) OpenHelperManager.getHelper(getActivity(), DatabaseHelper.class);
-        final RuntimeExceptionDao<ColorItem, Integer> studDao = dbHelper.getStudRuntimeExceptionDao();
-        studDao.create(new ColorItem(nameValue, rgbValue, hexValue, imageValue));
+        dbHelper = OpenHelperManager.getHelper(getActivity(), DatabaseHelper.class);
+        final RuntimeExceptionDao<ColorItem, Integer> colorDao = dbHelper.getColorRuntimeExceptionDao();
+        colorDao.create(new ColorItem(nameValue, rgbValue, hexValue, imageValue));
     }
+
+
 }

@@ -5,7 +5,7 @@
     <color name="textColorPrimary">#FFFFFF</color>
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>
-    <color name="colorAccent">#FF80AB</color>
+   <!-- <color name="colorAccent">#FF80AB</color>-->
 
     <color name="black_semi_transparent">#B2000000</color>
     <color name="colorPrimary_transparent">#B22196F3</color>
@@ -19,4 +19,5 @@
     <color name="blue_semi_transparent_pressed">#80738ffe</color>
     <color name="white_pressed_trasparent">#99f1f1f1</color>
     <color name="colorPrimaryDark_trasparent">#f01976D2</color>
+    <color name="color_select_text_view">#FF8C00</color>
 </resources>

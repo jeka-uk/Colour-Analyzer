@@ -5,4 +5,104 @@
     android:id="@+id/send_data_relative_layout"
     android:background="@color/colorPrimaryDark_trasparent">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="245dp"
+        android:layout_marginTop="58dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginBottom="3dp"
+        android:background="@color/background"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/colorPrimary"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="65dp"
+        android:textSize="18dp"
+        android:textStyle="bold|italic"
+        android:text="@string/title_sevd_to_sql"
+        android:textColor="@color/white"/>
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/white"/>
+
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:id="@+id/input_ip"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="120dp"
+        android:background="@drawable/lost_focus_style"
+        android:textColor="@color/navigationBarColor"
+        android:textCursorDrawable="@drawable/color_cursor"
+        android:textColorHint="@color/background"
+        android:hint="Input ip SQL Server"
+        android:textSize="15dp"/>
+
+    <CheckBox
+        android:layout_width="23dp"
+        android:id="@+id/checkbox_save_ip"
+        android:layout_height="23dp"
+        android:layout_below="@+id/input_ip"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="30dp"
+        android:background="@drawable/cb_save_ip"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/checbox__title_seve_to_sql"
+        android:textColor="@color/colorPrimary"
+        android:layout_below="@+id/input_ip"
+        android:layout_marginTop="32dp"
+        android:layout_marginLeft="60dp"/>
+
+
+
+
+
+    <com.example.lenovo.colouranalyzer.common.TransImageButton
+        android:layout_width="fill_parent"
+        android:layout_height="35dp"
+        android:id="@+id/button_sing_in"
+        android:layout_marginTop="240dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/button_style"
+        android:text="Sing in"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/send_to_sql_button"
+        android:textColor="@color/white"
+        android:layout_marginTop="40dp"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:layout_below="@+id/checkbox_save_ip"/>
+-->
+
 </RelativeLayout>

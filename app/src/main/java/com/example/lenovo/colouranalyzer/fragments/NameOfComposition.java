@@ -1,6 +1,7 @@
 package com.example.lenovo.colouranalyzer.fragments;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -23,6 +24,14 @@ import com.example.lenovo.colouranalyzer.R;
 import com.example.lenovo.colouranalyzer.common.Constans;
 import com.example.lenovo.colouranalyzer.common.SetNameItem;
 import com.example.lenovo.colouranalyzer.common.TransImageButton;
+import com.example.lenovo.colouranalyzer.db.ColorItem;
+import com.example.lenovo.colouranalyzer.db.DatabaseHelper;
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.RuntimeExceptionDao;
+
+import java.sql.SQLDataException;
+import java.sql.SQLException;
+import java.util.List;
 
 public class NameOfComposition extends Fragment {
 
@@ -31,6 +40,7 @@ public class NameOfComposition extends Fragment {
     private EditText mNameItem;
     private SetNameItem mSetNameItem;
     private SharedPreferences sPref;
+    private DatabaseHelper dbHelper;
 
     @Nullable
     @Override
@@ -60,6 +70,7 @@ public class NameOfComposition extends Fragment {
     View.OnClickListener onCompasitionLayout = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+
         }
     };
 
@@ -73,7 +84,7 @@ public class NameOfComposition extends Fragment {
 
 
     private void saveResult(EditText name){
-        if(name.getText().length() != 0){
+        if(name.getText().length() != 0 && existsInputName(name.getText().toString()) == true){
             sPref = getActivity().getSharedPreferences(Constans.COLOR_ANALYZER, getActivity().MODE_PRIVATE);
             SharedPreferences.Editor ed = sPref.edit();
             ed.putString(Constans.NAME_ITEM, name.getText().toString());
@@ -82,6 +93,9 @@ public class NameOfComposition extends Fragment {
 
             if(getFragmentManager() != null)
                 getFragmentManager().popBackStack();
+        }else{
+            informationSelectedUsers();
+            mNameItem.setText("");
         }
     }
 
@@ -108,8 +122,48 @@ public class NameOfComposition extends Fragment {
     public void onPause() {
         super.onPause();
         mNameItem.clearFocus();
-        hideKeyboard();;
+        hideKeyboard();
+    }
 
+    private boolean existsInputName(String name){
+        boolean existsName = true;
+        dbHelper = OpenHelperManager.getHelper(getActivity(), DatabaseHelper.class);
+        final RuntimeExceptionDao<ColorItem, Integer> colorDao = dbHelper.getColorRuntimeExceptionDao();
+        List<ColorItem> result = colorDao.queryForAll();
+        for (int i = 0; i <result.size() ; i++) {
+                if(name.equals(result.get(i).getNameItem())){
+                    existsName = false;
+                }
+            }
+        return existsName;
+    }
+
+
+    private void informationSelectedUsers() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(R.string.name_of_composition_activity_information)
+                .setCancelable(false)
+                .setPositiveButton(R.string.button_information_available_sd, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                }).create().show();
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mNameItem.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    v.setBackgroundResource(R.drawable.focus_border_style);
+                }else{
+                    v.setBackgroundResource(R.drawable.lost_focus_style);
+                }
+            }
+        });
     }
 }
 

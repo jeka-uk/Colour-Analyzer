@@ -29,6 +29,14 @@
     <string name="name_of_item_fragment_name_copmosition">Введите название лота</string>
     <string name="name_of_item">Название лота</string>
     <string name="button_information_available_sd">Ок</string>
+    <string name="name_of_composition_activity_information">Такое название уже существует!</string>
+    <string name="title_sevd_to_sql">Вход в SQL Server</string>
+    <string name="title_information_network">Передача мобильных данных отключена</string>
+    <string name="message_information_network">Включите передачу пакетных данных или воспользуйтесь Wi-Fi для завершения этого действия.</string>
+    <string name="button_ok_information_network">ОК</string>
+    <string name="checbox__title_seve_to_sql">Сохранить IP</string>
+    <string name="send_to_sql_button">Sing in</string>
+
 
     <!-- data in fragment_data_color-->
 

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 public class TransImageButton extends ImageView {
 
     OnClickListener onClickListener;
+
     private OnTouchListener onTouch = new OnTouchListener() {
 
         @Override

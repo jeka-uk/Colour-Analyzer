@@ -15,4 +15,10 @@ public class Constans {
     public static final String RGB_VALUE = "rgb_value";
     public static final String NAME_DB_SQL = "Color";
     public static final String NAME_TABLE_SQL = "color_table";
+    public static final String PORT_SQL = "1433";
+    public static final String USER_SQL = "android";
+    public static final String PASSWORD_SQL = "1234";
+    public static final int DATABASE_VERSION = 2;
+    public static final String SAVE_IP_VALUE = "save_ip_value";
+    public static final String SAVE_IP_CHECK_BOX = "save_ip_check_box";
 }

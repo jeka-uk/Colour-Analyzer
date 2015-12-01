@@ -70,12 +70,6 @@ public class CommonUtils {
         frTra.commit();
     }
 
-    public static void startFragmentRefresh(Fragment newFragment, int containerViewId, FragmentManager fragmentManager, boolean transparent){
-        FragmentTransaction frTra = fragmentManager.beginTransaction();
-        frTra.replace(containerViewId, newFragment);
-        //frTra.addToBackStack(null);
-        frTra.commit();
-    }
 
     public static int getAverageColorRGB(Bitmap bitmap) {
         final int width = bitmap.getWidth();
