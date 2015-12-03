@@ -19,13 +19,12 @@ public class ConnectToSQL {
 
     public void connectToSQL(String url, List<ColorItem> dataFromLocalDB){
         ArrayList resultSelectFromSql = new ArrayList();
-        try {
+            try {
             if(mConnection != null){
                 mConnection.close();
             }
             Class.forName("net.sourceforge.jtds.jdbc.Driver");
             String connectionURL = "jdbc:jtds:sqlserver://" + url + ":"+ Constans.PORT_SQL + ";" + "databaseName=" + ";user=" + Constans.USER_SQL + ";password=" + Constans.PASSWORD_SQL + ";";
-            System.out.println(DriverManager.getLoginTimeout());
             mConnection = DriverManager.getConnection(connectionURL);
             System.out.println("Connect to SQL Server successfully");
 
@@ -36,7 +35,7 @@ public class ConnectToSQL {
             statement.executeUpdate(SqlQueryBuilder.CREATE_TABLE_SQL);
             System.out.println("Create table SQL Server successfully");
 
-            ResultSet rs = statement.executeQuery(SqlQueryBuilder.SELECT_NAME_ITEM_FROM_SQL);
+            ResultSet rs = statement.executeQuery(SqlQueryBuilder.createRequestDuplicationInSql(dataFromLocalDB));
             while (rs.next()) {
                 resultSelectFromSql.add(rs.getString(1));
             }

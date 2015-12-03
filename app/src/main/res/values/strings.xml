@@ -35,7 +35,7 @@
     <string name="title_information_network">Mobile data turned off</string>
     <string name="message_information_network">Turn on mobile data or use Wi-Fi for completion this actions.</string>
     <string name="button_ok_information_network">OK</string>
-    <string name="checbox__title_seve_to_sql">Save IP</string>
+    <string name="checbox__title_seve_to_sql">Save name of server</string>
     <string name="send_to_sql_button">Sing in</string>
 
     <!-- data in fragment_data_color-->
