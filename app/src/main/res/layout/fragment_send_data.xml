@@ -84,7 +84,7 @@
 
     <com.example.lenovo.colouranalyzer.common.TransImageButton
         android:layout_width="fill_parent"
-        android:layout_height="35dp"
+        android:layout_height="40dp"
         android:id="@+id/button_sing_in"
         android:layout_marginTop="240dp"
         android:layout_marginLeft="25dp"
@@ -99,7 +99,7 @@
         android:layout_height="wrap_content"
         android:text="@string/send_to_sql_button"
         android:textColor="@color/white"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="45dp"
         android:layout_centerHorizontal="true"
         android:textStyle="bold"
         android:layout_below="@+id/checkbox_save_ip"/>

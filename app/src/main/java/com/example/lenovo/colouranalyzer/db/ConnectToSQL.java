@@ -4,6 +4,7 @@ package com.example.lenovo.colouranalyzer.db;
 
 
 import com.example.lenovo.colouranalyzer.common.Constans;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -17,8 +18,10 @@ public class ConnectToSQL {
 
     private Connection mConnection = null;
 
-    public void connectToSQL(String url, List<ColorItem> dataFromLocalDB){
+    public List<ColorItem> connectToSQL(String url, List<ColorItem> dataFromLocalDB){
         ArrayList resultSelectFromSql = new ArrayList();
+        ArrayList<ColorItem> duplicateItemFromSql = new ArrayList();
+
             try {
             if(mConnection != null){
                 mConnection.close();
@@ -41,6 +44,7 @@ public class ConnectToSQL {
             }
 
             PreparedStatement ps = mConnection.prepareStatement(SqlQueryBuilder.INSERT_DATA_TO_SQL);
+            PreparedStatement psUpdate = mConnection.prepareStatement(SqlQueryBuilder.UPDATE_DATA_TO_SQL);
             for (int i = 0; i < dataFromLocalDB.size(); i++) {
                 if(!resultSelectFromSql.contains(dataFromLocalDB.get(i).getNameItem())){
                     ps.setInt(1, i);
@@ -52,21 +56,35 @@ public class ConnectToSQL {
                     ps.addBatch();
                     System.out.println("Added Item to SQL "+dataFromLocalDB.get(i).getNameItem());
                 }else{
-                    System.out.println("Duplicate Item "+dataFromLocalDB.get(i).getNameItem());
+                    System.out.println("Duplicate Item " + dataFromLocalDB.get(i).getNameItem());
+                    duplicateItemFromSql.add(dataFromLocalDB.get(i));
+                    psUpdate.setInt(1, i);
+                    psUpdate.setString(2, dataFromLocalDB.get(i).getAddDateItem());
+                    psUpdate.setString(3, dataFromLocalDB.get(i).getHexItem());
+                    psUpdate.setInt(4, dataFromLocalDB.get(i).getRgbItem());
+                    psUpdate.setString(5, dataFromLocalDB.get(i).getNameItem());
+                    psUpdate.setBytes(6, dataFromLocalDB.get(i).getImageItem());
+                    psUpdate.setString(7, dataFromLocalDB.get(i).getNameItem());
+                    psUpdate.addBatch();
+
                 }
             }
             mConnection.setAutoCommit(true);
             ps.executeBatch();
+            psUpdate.executeBatch();
 
             System.out.println("Insert data to SQL");
             ps.close();
+            psUpdate.close();
             statement.close();
             mConnection.close();
 
                 } catch (SQLException e) {
                            e.printStackTrace();
+
                 } catch (ClassNotFoundException e) {
                           e.printStackTrace();
         }
+        return duplicateItemFromSql;
     }
 }

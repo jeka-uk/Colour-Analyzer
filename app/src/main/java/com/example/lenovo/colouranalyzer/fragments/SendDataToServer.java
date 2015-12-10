@@ -7,37 +7,31 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
 import com.example.lenovo.colouranalyzer.R;
+import com.example.lenovo.colouranalyzer.common.CommonUtils;
 import com.example.lenovo.colouranalyzer.common.Constans;
 import com.example.lenovo.colouranalyzer.common.TransImageButton;
 import com.example.lenovo.colouranalyzer.db.ColorItem;
 import com.example.lenovo.colouranalyzer.db.ConnectToSQL;
 import com.example.lenovo.colouranalyzer.db.DatabaseHelper;
-import com.example.lenovo.colouranalyzer.db.SqlQueryBuilder;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+
 import java.util.ArrayList;
 import java.util.List;
-
-public class SendDataToServer extends Fragment {
+public class SendDataToServer extends Fragment  {
 
     private RelativeLayout mCompositionlayout;
     private EditText mInputIpEditText;
@@ -46,6 +40,9 @@ public class SendDataToServer extends Fragment {
     private SharedPreferences sPref;
     private String mInputIp;
     private ConnectToSQL mConnectToSQL = new ConnectToSQL();
+    private Handler h;
+    private ResponseSqlFragment mResponseSqlFragment = new ResponseSqlFragment();
+    private List<ColorItem> duplicateItemSql;
 
     @Nullable
     @Override
@@ -60,6 +57,22 @@ public class SendDataToServer extends Fragment {
         mSaveIpCheckBox = (CheckBox) view.findViewById(R.id.checkbox_save_ip);
         mSaveIpCheckBox.setButtonDrawable(android.R.color.transparent);
 
+
+        h = new Handler() {
+            public void handleMessage(android.os.Message msg) {
+                switch (msg.what) {
+                    case Constans.STATUS_CONNECTING_TO_SQL:
+                        StartResponseSqlFragment(false, false);
+                        break;
+                    case Constans.STATUS_RESULT_FROM_SQL:
+                        StartResponseSqlFragment(true, false);
+                        break;
+                    case Constans.STATUS_ALL_DATA_SENT_TO_SQL:
+                        StartResponseSqlFragment(false, true);
+                        break;
+                }
+            };
+        };
         return view;
     }
 
@@ -127,7 +140,13 @@ public class SendDataToServer extends Fragment {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        mConnectToSQL.connectToSQL(mInputIp, loadDataFromLocalDb());
+                        h.sendEmptyMessage(Constans.STATUS_CONNECTING_TO_SQL);
+                        duplicateItemSql = mConnectToSQL.connectToSQL(mInputIp, loadDataFromLocalDb());
+                        if(duplicateItemSql != null && duplicateItemSql.size() > 0){
+                            h.sendEmptyMessage(Constans.STATUS_RESULT_FROM_SQL);
+                        }else{
+                            h.sendEmptyMessage(Constans.STATUS_ALL_DATA_SENT_TO_SQL);
+                        }
                     }
                 }).start();
             }
@@ -165,4 +184,18 @@ public class SendDataToServer extends Fragment {
             mInputIpEditText.setText(sPref.getString(Constans.SAVE_IP_VALUE, null));
             mSaveIpCheckBox.setChecked(sPref.getBoolean(Constans.SAVE_IP_CHECK_BOX, false));
     }
+
+
+   private void StartResponseSqlFragment(boolean showListView, boolean showInformation){
+       if(showListView ==false && showInformation ==false){
+           CommonUtils.startFragmentSlideVerticalDownUpWithBackStack(mResponseSqlFragment, R.id.response_sql_fragment, getFragmentManager());
+       }
+       if(showListView)
+           mResponseSqlFragment.informationDuplicateItem(duplicateItemSql);
+       if(showInformation)
+           mResponseSqlFragment.informationSelectedUsers();
+
+   }
+
+
 }

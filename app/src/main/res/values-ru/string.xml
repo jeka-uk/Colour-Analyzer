@@ -36,6 +36,9 @@
     <string name="button_ok_information_network">ОК</string>
     <string name="checbox__title_seve_to_sql">Сохранить название сервера</string>
     <string name="send_to_sql_button">Sing in</string>
+    <string name="heade_layout_title">Лоты переименованные в SQL</string>
+    <string name="response_sql_fragment_information_about_task"> Все данные были успешно отправлены</string>
+
 
 
     <!-- data in fragment_data_color-->

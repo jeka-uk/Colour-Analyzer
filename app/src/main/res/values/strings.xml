@@ -37,6 +37,8 @@
     <string name="button_ok_information_network">OK</string>
     <string name="checbox__title_seve_to_sql">Save name of server</string>
     <string name="send_to_sql_button">Sing in</string>
+    <string name="heade_layout_title">Title items were renamed in SQL</string>
+    <string name="response_sql_fragment_information_about_task">All data was sent successfully</string>
 
     <!-- data in fragment_data_color-->
 

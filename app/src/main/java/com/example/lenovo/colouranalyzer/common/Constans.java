@@ -21,4 +21,8 @@ public class Constans {
     public static final int DATABASE_VERSION = 2;
     public static final String SAVE_IP_VALUE = "save_ip_value";
     public static final String SAVE_IP_CHECK_BOX = "save_ip_check_box";
+
+    public static final int STATUS_CONNECTING_TO_SQL = 0;
+    public static final int STATUS_RESULT_FROM_SQL = 1;
+    public static final int STATUS_ALL_DATA_SENT_TO_SQL = 2;
 }

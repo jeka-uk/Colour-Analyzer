@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements OnClickTransparen
     private CardViewFragment mCdFragment = new CardViewFragment();
     private TransparentColorFragment mTrFragment = new TransparentColorFragment();
     private DataColorFragment mDtFragment = new DataColorFragment();
-    private Context mContext = this;
+   // private Context mContext = this;
 
 
     @Override

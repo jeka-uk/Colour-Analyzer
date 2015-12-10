@@ -2,8 +2,6 @@ package com.example.lenovo.colouranalyzer.db;
 
 
 import com.example.lenovo.colouranalyzer.common.Constans;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class SqlQueryBuilder {
@@ -17,6 +15,8 @@ public class SqlQueryBuilder {
     public static final String SELECT_NAME_ITEM_FROM_SQL = "SELECT name_item from "+ Constans.NAME_DB_SQL+".dbo."+ Constans.NAME_TABLE_SQL+" ";
 
     public static final String INSERT_DATA_TO_SQL = "INSERT INTO "+ Constans.NAME_DB_SQL+".dbo."+ Constans.NAME_TABLE_SQL+" (id, add_date, name_hex, name_rgb, name_item, image_item) VALUES (?, ?, ?, ?, ?, ?)";
+
+    public static final String UPDATE_DATA_TO_SQL = "UPDATE "+ Constans.NAME_DB_SQL+".dbo."+ Constans.NAME_TABLE_SQL+" SET id = ?, add_date = ?, name_hex = ?, name_rgb = ?, name_item = ?, image_item = ? WHERE name_item = ?";
 
     public static String createRequestDuplicationInSql(List<ColorItem> dataFromLocalDB){
         String stroka = new String();

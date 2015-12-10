@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="70dp">
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="14.2dp"
+        android:background="@color/background"/>
+
+    <ImageView
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:id="@+id/item_image"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:background="@drawable/ic_gallery"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="HEX:"
+        android:textSize="10dp"
+        android:paddingTop="30dp"
+        android:layout_alignParentLeft="true"
+        android:paddingLeft="80dp"
+        android:textStyle="bold"
+        android:textColor="@color/navigationBarColor"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/item_hex"
+        android:text="#ff80ab"
+        android:textSize="10dp"
+        android:paddingTop="30dp"
+        android:layout_alignParentLeft="true"
+        android:paddingLeft="110dp"
+        android:textColor="@color/navigationBarColor"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RGB:"
+        android:textSize="10dp"
+        android:paddingTop="50dp"
+        android:layout_alignParentLeft="true"
+        android:paddingLeft="80dp"
+        android:textStyle="bold"
+        android:textColor="@color/navigationBarColor"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/item_rgb"
+        android:text="255,128,171"
+        android:textSize="10dp"
+        android:paddingTop="50dp"
+        android:layout_alignParentLeft="true"
+        android:paddingLeft="110dp"
+        android:textColor="@color/navigationBarColor"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="HSV:"
+        android:textSize="10dp"
+        android:paddingTop="30dp"
+        android:layout_alignParentLeft="true"
+        android:paddingLeft="200dp"
+        android:textStyle="bold"
+        android:textColor="@color/navigationBarColor"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="340  50  100"
+        android:id="@+id/item_hsv"
+        android:textSize="10dp"
+        android:paddingTop="30dp"
+        android:layout_alignParentLeft="true"
+        android:paddingLeft="230dp"
+        android:textColor="@color/navigationBarColor"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="HSL:"
+        android:textSize="10dp"
+        android:paddingTop="50dp"
+        android:layout_alignParentLeft="true"
+        android:paddingLeft="200dp"
+        android:textStyle="bold"
+        android:textColor="@color/navigationBarColor"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0.94  1.00  0.75"
+        android:textSize="10dp"
+        android:id="@+id/item_hsl"
+        android:paddingTop="50dp"
+        android:layout_alignParentLeft="true"
+        android:paddingLeft="230dp"
+        android:textColor="@color/navigationBarColor"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/item_name_of_item"
+        android:text="Name of the lot"
+        android:paddingTop="8dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="150dp"
+        android:textSize="12dp"
+        android:textStyle="bold"
+        android:textColor="@color/navigationBarColor"/>
+
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="02.12.2015"
+        android:id="@+id/item_data"
+        android:paddingTop="8dp"
+        android:layout_alignParentRight="true"
+        android:paddingRight="10dp"
+        android:textSize="10dp"
+        android:textStyle="bold"
+        android:textColor="@color/navigationBarColor"/>
+
+   <CheckBox
+       android:layout_width="15dp"
+       android:layout_height="15dp"
+       android:layout_marginTop="35dp"
+       android:id="@+id/item_edit_checbox"
+       android:layout_marginRight="20dp"
+       android:layout_alignParentRight="true"
+       android:background="@drawable/cb_edit"
+       />
+
+</RelativeLayout>
