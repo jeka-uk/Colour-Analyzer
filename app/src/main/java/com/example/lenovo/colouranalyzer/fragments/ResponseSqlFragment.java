@@ -63,9 +63,9 @@ public class ResponseSqlFragment extends Fragment {
     }
 
 
-    public void informationSelectedUsers() {
+    public void informationSelectedUsers(String titleInformation) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(R.string.response_sql_fragment_information_about_task)
+        builder.setMessage(titleInformation)
                 .setCancelable(false)
                 .setPositiveButton(R.string.button_information_available_sd, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -76,5 +76,4 @@ public class ResponseSqlFragment extends Fragment {
                 }).create().show();
         mProgressBar.setVisibility(View.GONE);
     }
-
 }

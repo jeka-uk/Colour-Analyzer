@@ -16,6 +16,8 @@ public class Constans {
     public static final String NAME_DB_SQL = "Color";
     public static final String NAME_TABLE_SQL = "color_table";
     public static final String PORT_SQL = "1433";
+
+    public static final int TIME_OUT = 5000;
     public static final String USER_SQL = "android";
     public static final String PASSWORD_SQL = "1234";
     public static final int DATABASE_VERSION = 2;
@@ -25,4 +27,5 @@ public class Constans {
     public static final int STATUS_CONNECTING_TO_SQL = 0;
     public static final int STATUS_RESULT_FROM_SQL = 1;
     public static final int STATUS_ALL_DATA_SENT_TO_SQL = 2;
+    public static final int STATUS_SQL_SERVER_NOT_FOUND = 3;
 }

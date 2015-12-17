@@ -1,14 +1,10 @@
 package com.example.lenovo.colouranalyzer.db;
-
-import android.provider.ContactsContract;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-import java.io.ByteArrayInputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.SimpleFormatter;
 
 
 @DatabaseTable(tableName = "colorItem")
@@ -67,6 +63,4 @@ public class ColorItem {
     public byte[] getImageItem() {
         return imageItem;
     }
-
-
 }

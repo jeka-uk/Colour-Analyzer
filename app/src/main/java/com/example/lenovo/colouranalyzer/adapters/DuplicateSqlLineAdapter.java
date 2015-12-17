@@ -17,6 +17,9 @@ import com.example.lenovo.colouranalyzer.R;
 import com.example.lenovo.colouranalyzer.common.CommonUtils;
 import com.example.lenovo.colouranalyzer.common.OnSwipeTouchListener;
 import com.example.lenovo.colouranalyzer.db.ColorItem;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import org.w3c.dom.Text;
 
@@ -30,10 +33,16 @@ public class DuplicateSqlLineAdapter extends ArrayAdapter<ColorItem> {
     private ImageView mItemItem;
     private CheckBox mEditCheckBox;
 
+
+
     public DuplicateSqlLineAdapter(Context context, List<ColorItem> colorItem) {
         super(context, 0, colorItem);
         this.mDataItem = colorItem;
+
+
     }
+
+
 
 
 
@@ -46,6 +55,7 @@ public class DuplicateSqlLineAdapter extends ArrayAdapter<ColorItem> {
 
         mEditCheckBox = (CheckBox) convertView.findViewById(R.id.item_edit_checbox);
         mEditCheckBox.setButtonDrawable(android.R.color.transparent);
+        mEditCheckBox.setChecked(true);
         mItemItem = (ImageView) convertView.findViewById(R.id.item_image);
         mNameItem = (TextView) convertView.findViewById(R.id.item_name_of_item);
         mRgb = (TextView) convertView.findViewById(R.id.item_rgb);
@@ -55,8 +65,10 @@ public class DuplicateSqlLineAdapter extends ArrayAdapter<ColorItem> {
         mHsv = (TextView) convertView.findViewById(R.id.item_hsv);
 
 
+
+
         mHsv.setText(CommonUtils.getRgbToHsv(mDataItem.get(position).getRgbItem()));
-        mItemItem.setImageBitmap(CommonUtils.convertByteToImage(mDataItem.get(position).getImageItem()));
+       // mItemItem.setImageBitmap(CommonUtils.convertByteToImage(mDataItem.get(position).getImageItem()));
         mNameItem.setText(mDataItem.get(position).getNameItem());
         mRgb.setText(CommonUtils.getRgbToString(mDataItem.get(position).getRgbItem()));
         mHex.setText(mDataItem.get(position).getHexItem());

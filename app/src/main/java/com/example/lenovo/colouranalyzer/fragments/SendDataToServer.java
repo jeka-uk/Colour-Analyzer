@@ -29,7 +29,6 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
 
-import java.util.ArrayList;
 import java.util.List;
 public class SendDataToServer extends Fragment  {
 
@@ -43,6 +42,8 @@ public class SendDataToServer extends Fragment  {
     private Handler h;
     private ResponseSqlFragment mResponseSqlFragment = new ResponseSqlFragment();
     private List<ColorItem> duplicateItemSql;
+
+
 
     @Nullable
     @Override
@@ -62,13 +63,16 @@ public class SendDataToServer extends Fragment  {
             public void handleMessage(android.os.Message msg) {
                 switch (msg.what) {
                     case Constans.STATUS_CONNECTING_TO_SQL:
-                        StartResponseSqlFragment(false, false);
+                        StartResponseSqlFragment(false, false, null);
                         break;
                     case Constans.STATUS_RESULT_FROM_SQL:
-                        StartResponseSqlFragment(true, false);
+                        StartResponseSqlFragment(true, false, null);
                         break;
                     case Constans.STATUS_ALL_DATA_SENT_TO_SQL:
-                        StartResponseSqlFragment(false, true);
+                        StartResponseSqlFragment(false, true, "task");
+                        break;
+                    case Constans.STATUS_SQL_SERVER_NOT_FOUND:
+                        StartResponseSqlFragment(false, true, null);
                         break;
                 }
             };
@@ -141,11 +145,15 @@ public class SendDataToServer extends Fragment  {
                     @Override
                     public void run() {
                         h.sendEmptyMessage(Constans.STATUS_CONNECTING_TO_SQL);
-                        duplicateItemSql = mConnectToSQL.connectToSQL(mInputIp, loadDataFromLocalDb());
-                        if(duplicateItemSql != null && duplicateItemSql.size() > 0){
-                            h.sendEmptyMessage(Constans.STATUS_RESULT_FROM_SQL);
+                        if(mConnectToSQL.testIpSQL(mInputIp)){
+                            duplicateItemSql = mConnectToSQL.connectToSQL(mInputIp, loadDataFromLocalDb());
+                            if(duplicateItemSql != null && duplicateItemSql.size() > 0){
+                                h.sendEmptyMessage(Constans.STATUS_RESULT_FROM_SQL);
+                            }else{
+                                h.sendEmptyMessage(Constans.STATUS_ALL_DATA_SENT_TO_SQL);
+                            }
                         }else{
-                            h.sendEmptyMessage(Constans.STATUS_ALL_DATA_SENT_TO_SQL);
+                            h.sendEmptyMessage(Constans.STATUS_SQL_SERVER_NOT_FOUND);
                         }
                     }
                 }).start();
@@ -186,16 +194,18 @@ public class SendDataToServer extends Fragment  {
     }
 
 
-   private void StartResponseSqlFragment(boolean showListView, boolean showInformation){
+   private void StartResponseSqlFragment(boolean showListView, boolean showInformation, String task){
        if(showListView ==false && showInformation ==false){
            CommonUtils.startFragmentSlideVerticalDownUpWithBackStack(mResponseSqlFragment, R.id.response_sql_fragment, getFragmentManager());
        }
        if(showListView)
            mResponseSqlFragment.informationDuplicateItem(duplicateItemSql);
-       if(showInformation)
-           mResponseSqlFragment.informationSelectedUsers();
-
+       if(showInformation){
+           if("task".equals(task)){
+               mResponseSqlFragment.informationSelectedUsers(getString(R.string.send_data_to_server_fragment_information_about_task));
+           }else{
+               mResponseSqlFragment.informationSelectedUsers(getString(R.string.send_data_to_server_fragment_information_about_found_sql));
+           }
+       }
    }
-
-
 }

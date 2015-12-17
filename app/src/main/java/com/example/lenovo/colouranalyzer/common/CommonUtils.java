@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Display;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
 import com.example.lenovo.colouranalyzer.R;
 

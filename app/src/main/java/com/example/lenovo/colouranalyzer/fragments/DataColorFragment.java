@@ -105,7 +105,7 @@ public class DataColorFragment extends Fragment {
 
     private void setColor(int RGB){
             mRgbColor.setText(CommonUtils.getRgbToString(RGB));
-            mHexColor.setText(CommonUtils.getRgbToHex(RGB));
+            mHexColor.setText(CommonUtils.getRgbToHex(RGB).toUpperCase());
             mHsvColor.setText(CommonUtils.getRgbToHsv(RGB));
             mSampleColor.setBackgroundColor(Color.parseColor(String.format(CommonUtils.getRgbToHex(RGB))));
             mHslColor.setText(CommonUtils.getRgbToHsl(RGB));
