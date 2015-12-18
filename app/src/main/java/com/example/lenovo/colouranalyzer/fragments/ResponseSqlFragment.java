@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,12 +39,16 @@ public class ResponseSqlFragment extends Fragment {
     private ListView  mListView;
     private DuplicateSqlLineAdapter mDuplicateSqlAdapter;
     private ImageButton mButton;
+    private RelativeLayout mMainLayout;
+    private View mView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_response_sql, container, false);
 
+        mMainLayout = (RelativeLayout) view. findViewById(R.id.main_relative_layout);
+        mMainLayout.setOnClickListener(onResponseLayout);
         mProgressBar = (ProgressBar) view.findViewById(R.id.response_progress_barr);
         mListView = (ListView) view.findViewById(R.id.respons_listview);
         mButton = (ImageButton) view.findViewById(R.id.test);
@@ -52,10 +57,18 @@ public class ResponseSqlFragment extends Fragment {
     }
 
 
+    View.OnClickListener onResponseLayout = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+        }
+    };
+
+
     public void informationDuplicateItem(List<ColorItem> duplicateItemSql) {
         this.mDataItem = duplicateItemSql;
-        View view = getActivity().getLayoutInflater().inflate(R.layout.header_layout,null);
-        mListView.addHeaderView(view);
+        mView = getActivity().getLayoutInflater().inflate(R.layout.header_layout,null);
+        mListView.addHeaderView(mView);
 
         mDuplicateSqlAdapter = new DuplicateSqlLineAdapter(getActivity(), mDataItem);
         mListView.setAdapter(mDuplicateSqlAdapter);

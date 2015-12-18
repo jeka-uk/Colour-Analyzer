@@ -11,9 +11,11 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -45,6 +47,7 @@ public class SendDataToServer extends Fragment  {
 
 
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -53,6 +56,7 @@ public class SendDataToServer extends Fragment  {
         mCompositionlayout = (RelativeLayout) view.findViewById(R.id.send_data_relative_layout);
         mCompositionlayout.setOnClickListener(onCompasitionLayout);
         mInputIpEditText = (EditText) view.findViewById(R.id.input_ip);
+        mInputIpEditText.setOnKeyListener(onPressButton);
         mSingIn = (TransImageButton) view.findViewById(R.id.button_sing_in);
         mSingIn.setOnClickListener(onSingIn);
         mSaveIpCheckBox = (CheckBox) view.findViewById(R.id.checkbox_save_ip);
@@ -141,22 +145,7 @@ public class SendDataToServer extends Fragment  {
         public void onClick(View v) {
             if(mInputIpEditText.getText().length() != 0 && isNetworkAvailable(getActivity())){
                 setmInputIp(mInputIpEditText.getText().toString());
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        h.sendEmptyMessage(Constans.STATUS_CONNECTING_TO_SQL);
-                        if(mConnectToSQL.testIpSQL(mInputIp)){
-                            duplicateItemSql = mConnectToSQL.connectToSQL(mInputIp, loadDataFromLocalDb());
-                            if(duplicateItemSql != null && duplicateItemSql.size() > 0){
-                                h.sendEmptyMessage(Constans.STATUS_RESULT_FROM_SQL);
-                            }else{
-                                h.sendEmptyMessage(Constans.STATUS_ALL_DATA_SENT_TO_SQL);
-                            }
-                        }else{
-                            h.sendEmptyMessage(Constans.STATUS_SQL_SERVER_NOT_FOUND);
-                        }
-                    }
-                }).start();
+                connectToSql(mInputIpEditText.getText().toString());
             }
         }
     };
@@ -207,5 +196,43 @@ public class SendDataToServer extends Fragment  {
                mResponseSqlFragment.informationSelectedUsers(getString(R.string.send_data_to_server_fragment_information_about_found_sql));
            }
        }
+       hideKeyboard();
    }
+
+
+    public void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        View v = getActivity().getCurrentFocus();
+        if (v != null)
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+    }
+
+
+    private void connectToSql(String url){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                h.sendEmptyMessage(Constans.STATUS_CONNECTING_TO_SQL);
+                if(mConnectToSQL.testIpSQL(url)){
+                    duplicateItemSql = mConnectToSQL.connectToSQL(url, loadDataFromLocalDb());
+                    if(duplicateItemSql != null && duplicateItemSql.size() > 0){
+                        h.sendEmptyMessage(Constans.STATUS_RESULT_FROM_SQL);
+                    }else{
+                        h.sendEmptyMessage(Constans.STATUS_ALL_DATA_SENT_TO_SQL);
+                    }
+                }else{
+                    h.sendEmptyMessage(Constans.STATUS_SQL_SERVER_NOT_FOUND);
+                }
+            }
+        }).start();
+    }
+
+
+    View.OnKeyListener onPressButton = (View.OnKeyListener) (dialog, keyCode, event) -> {
+        if(event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER){
+            connectToSql(mInputIp);
+            return true;
+        }
+        return false;
+    };
 }

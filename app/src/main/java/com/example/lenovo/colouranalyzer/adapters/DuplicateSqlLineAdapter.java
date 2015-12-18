@@ -34,17 +34,10 @@ public class DuplicateSqlLineAdapter extends ArrayAdapter<ColorItem> {
     private CheckBox mEditCheckBox;
 
 
-
     public DuplicateSqlLineAdapter(Context context, List<ColorItem> colorItem) {
         super(context, 0, colorItem);
         this.mDataItem = colorItem;
-
-
     }
-
-
-
-
 
 
     @Override

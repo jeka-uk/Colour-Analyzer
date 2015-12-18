@@ -17,8 +17,7 @@ import java.sql.SQLException;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private Context context;
-    private static final String DATABASE_NAME = "color_item.db";
-   // private static final int DATABASE_VERSION = 2;
+    private static final String DATABASE_NAME = Constans.NAME_LOCAL_DB;
 
 
     private Dao<ColorItem, Integer> colorItemDao = null;
@@ -29,6 +28,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         this.context = context;
     }
 
+
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource) {
         try {
@@ -36,8 +36,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         } catch (SQLException e){
             Log.e(DatabaseHelper.class.getName(), "Unable to create datbases", e);
         }
-
     }
+
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource, int oldVer, int newVer) {
@@ -48,8 +48,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             Log.e(DatabaseHelper.class.getName(), "Unable to upgrade database from version " + oldVer + " to new "
                     + newVer, e);
         }
-
     }
+
 
     public Dao<ColorItem, Integer> getDao() throws SQLException {
         if (colorItemDao == null) {
@@ -64,14 +64,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             colorItemRuntimeDAO = getRuntimeExceptionDao(ColorItem.class);
         }
         return colorItemRuntimeDAO;
-
     }
+
 
     @Override
     public void close() {
         super.close();
         colorItemRuntimeDAO = null;
-      //  colorItemDao = null;
 
     }
 }
