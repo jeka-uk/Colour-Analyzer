@@ -21,13 +21,17 @@ import com.example.lenovo.colouranalyzer.R;
 import com.example.lenovo.colouranalyzer.common.OnClickTransparent;
 import com.example.lenovo.colouranalyzer.common.CommonUtils;
 import com.example.lenovo.colouranalyzer.common.SetNameItem;
+import com.example.lenovo.colouranalyzer.db.ColorItem;
+import com.example.lenovo.colouranalyzer.db.DatabaseHelper;
 import com.example.lenovo.colouranalyzer.fragments.CardViewFragment;
 import com.example.lenovo.colouranalyzer.fragments.DataColorFragment;
 import com.example.lenovo.colouranalyzer.fragments.NameOfComposition;
 import com.example.lenovo.colouranalyzer.fragments.TransparentColorFragment;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.RuntimeExceptionDao;
 
 import java.io.IOException;
+import java.util.List;
 
 import cc.trity.floatingactionbutton.FloatingActionButton;
 import cc.trity.floatingactionbutton.FloatingActionsMenu;
@@ -42,7 +46,6 @@ public class MainActivity extends AppCompatActivity implements OnClickTransparen
     private CardViewFragment mCdFragment = new CardViewFragment();
     private TransparentColorFragment mTrFragment = new TransparentColorFragment();
     private DataColorFragment mDtFragment = new DataColorFragment();
-   // private Context mContext = this;
 
 
     @Override
@@ -61,6 +64,8 @@ public class MainActivity extends AppCompatActivity implements OnClickTransparen
         mGallery.setOnClickListener(onGallery);
         mMainButtonMenu = (FloatingActionsMenu) findViewById(R.id.multiple_actions_down);
         mMainButtonMenu.setOnFloatingActionsMenuUpdateListener(onTransparent);
+
+        deleteAllDataFromDatabase();
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -244,5 +249,13 @@ public class MainActivity extends AppCompatActivity implements OnClickTransparen
     protected void onDestroy() {
         super.onDestroy();
         OpenHelperManager.releaseHelper();
+    }
+
+
+    private void deleteAllDataFromDatabase(){
+        DatabaseHelper dbHelper = OpenHelperManager.getHelper(this, DatabaseHelper.class);
+        final RuntimeExceptionDao<ColorItem, Integer> colorDao = dbHelper.getColorRuntimeExceptionDao();
+        List<ColorItem> list = colorDao.queryForAll();
+        colorDao.delete(list);
     }
 }

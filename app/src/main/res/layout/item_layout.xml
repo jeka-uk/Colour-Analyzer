@@ -3,21 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="70dp">
 
-    <ImageView
+   <!-- <ImageView
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_centerVertical="true"
         android:layout_marginLeft="14.2dp"
         android:background="@color/background"/>
-
+-->
     <ImageView
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:id="@+id/item_image"
         android:layout_centerVertical="true"
         android:layout_marginLeft="15dp"
-        android:background="@drawable/ic_gallery"/>
-
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -61,7 +61,7 @@ public class DuplicateSqlLineAdapter extends ArrayAdapter<ColorItem> {
 
 
         mHsv.setText(CommonUtils.getRgbToHsv(mDataItem.get(position).getRgbItem()));
-       // mItemItem.setImageBitmap(CommonUtils.convertByteToImage(mDataItem.get(position).getImageItem()));
+        mItemItem.setImageBitmap(CommonUtils.convertByteToImage(mDataItem.get(position).getImageItem()));
         mNameItem.setText(mDataItem.get(position).getNameItem());
         mRgb.setText(CommonUtils.getRgbToString(mDataItem.get(position).getRgbItem()));
         mHex.setText(mDataItem.get(position).getHexItem());

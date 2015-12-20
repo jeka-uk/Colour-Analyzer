@@ -41,6 +41,7 @@ public class ResponseSqlFragment extends Fragment {
     private ImageButton mButton;
     private RelativeLayout mMainLayout;
     private View mView;
+    private AlertDialog.Builder builder;
 
     @Nullable
     @Override
@@ -52,6 +53,7 @@ public class ResponseSqlFragment extends Fragment {
         mProgressBar = (ProgressBar) view.findViewById(R.id.response_progress_barr);
         mListView = (ListView) view.findViewById(R.id.respons_listview);
         mButton = (ImageButton) view.findViewById(R.id.test);
+        builder = new AlertDialog.Builder(getActivity());
 
         return view;
     }
@@ -60,7 +62,6 @@ public class ResponseSqlFragment extends Fragment {
     View.OnClickListener onResponseLayout = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
         }
     };
 
@@ -77,7 +78,6 @@ public class ResponseSqlFragment extends Fragment {
 
 
     public void informationSelectedUsers(String titleInformation) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(titleInformation)
                 .setCancelable(false)
                 .setPositiveButton(R.string.button_information_available_sd, new DialogInterface.OnClickListener() {

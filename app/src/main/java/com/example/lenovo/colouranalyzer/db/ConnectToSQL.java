@@ -113,31 +113,4 @@ public class ConnectToSQL {
         System.out.println("SQL Server found ");
         return true;
     }
-
-
-    /*public boolean testIpSQL(String url){
-        String s = "";
-        try {
-            Process p = Runtime.getRuntime().exec("ping " + url);
-            BufferedReader inputStream = new BufferedReader(
-                    new InputStreamReader(p.getInputStream()));
-
-        while ((s = inputStream.readLine()) != null) {
-                if(s.contains("icmp_seq=2")){
-                    System.out.println("Ip address enable: ");
-                    inputStream.close();
-                    return true;
-                }
-            }
-
-        if(!inputStream.ready()){
-            System.out.println("Ip address disable: ");
-            inputStream.close();
-        }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }*/
 }

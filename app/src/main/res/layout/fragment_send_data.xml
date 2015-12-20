@@ -5,6 +5,7 @@
     android:id="@+id/send_data_relative_layout"
     android:background="@color/colorPrimaryDark_trasparent">
 
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="245dp"
@@ -103,6 +104,6 @@
         android:layout_centerHorizontal="true"
         android:textStyle="bold"
         android:layout_below="@+id/checkbox_save_ip"/>
--->
+
 
 </RelativeLayout>

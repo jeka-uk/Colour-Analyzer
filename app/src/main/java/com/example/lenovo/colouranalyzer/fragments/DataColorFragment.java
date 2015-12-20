@@ -168,6 +168,4 @@ public class DataColorFragment extends Fragment {
         final RuntimeExceptionDao<ColorItem, Integer> colorDao = dbHelper.getColorRuntimeExceptionDao();
         colorDao.create(new ColorItem(nameValue, rgbValue, hexValue, imageValue));
     }
-
-
 }

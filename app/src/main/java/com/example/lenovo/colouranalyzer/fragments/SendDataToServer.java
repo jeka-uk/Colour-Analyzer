@@ -144,8 +144,7 @@ public class SendDataToServer extends Fragment  {
         @Override
         public void onClick(View v) {
             if(mInputIpEditText.getText().length() != 0 && isNetworkAvailable(getActivity())){
-                setmInputIp(mInputIpEditText.getText().toString());
-                connectToSql(mInputIpEditText.getText().toString());
+                connectToSql(mInputIpEditText);
             }
         }
     };
@@ -178,26 +177,27 @@ public class SendDataToServer extends Fragment  {
         sPref = getActivity().getSharedPreferences(Constans.COLOR_ANALYZER, getActivity().MODE_PRIVATE);
         if(!sPref.equals(null))
             setmInputIp(sPref.getString(Constans.SAVE_IP_VALUE, null));
-            mInputIpEditText.setText(sPref.getString(Constans.SAVE_IP_VALUE, null));
-            mSaveIpCheckBox.setChecked(sPref.getBoolean(Constans.SAVE_IP_CHECK_BOX, false));
+        mInputIpEditText.setText(sPref.getString(Constans.SAVE_IP_VALUE, null));
+        mSaveIpCheckBox.setChecked(sPref.getBoolean(Constans.SAVE_IP_CHECK_BOX, false));
     }
 
 
-   private void StartResponseSqlFragment(boolean showListView, boolean showInformation, String task){
-       if(showListView ==false && showInformation ==false){
-           CommonUtils.startFragmentSlideVerticalDownUpWithBackStack(mResponseSqlFragment, R.id.response_sql_fragment, getFragmentManager());
-       }
-       if(showListView)
-           mResponseSqlFragment.informationDuplicateItem(duplicateItemSql);
-       if(showInformation){
-           if("task".equals(task)){
-               mResponseSqlFragment.informationSelectedUsers(getString(R.string.send_data_to_server_fragment_information_about_task));
-           }else{
-               mResponseSqlFragment.informationSelectedUsers(getString(R.string.send_data_to_server_fragment_information_about_found_sql));
-           }
-       }
-       hideKeyboard();
-   }
+
+    private void StartResponseSqlFragment(boolean showListView, boolean showInformation, String task){
+        if(showListView ==false && showInformation ==false){
+            CommonUtils.startFragmentSlideVerticalDownUpWithBackStack(mResponseSqlFragment, R.id.response_sql_fragment, getFragmentManager());
+        }
+        if(showListView)
+            mResponseSqlFragment.informationDuplicateItem(duplicateItemSql);
+        if(showInformation){
+            if("task".equals(task)){
+                mResponseSqlFragment.informationSelectedUsers(getString(R.string.send_data_to_server_fragment_information_about_task));
+            }else{
+                mResponseSqlFragment.informationSelectedUsers(getString(R.string.send_data_to_server_fragment_information_about_found_sql));
+            }
+        }
+        hideKeyboard();
+    }
 
 
     public void hideKeyboard() {
@@ -208,29 +208,32 @@ public class SendDataToServer extends Fragment  {
     }
 
 
-    private void connectToSql(String url){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                h.sendEmptyMessage(Constans.STATUS_CONNECTING_TO_SQL);
-                if(mConnectToSQL.testIpSQL(url)){
-                    duplicateItemSql = mConnectToSQL.connectToSQL(url, loadDataFromLocalDb());
-                    if(duplicateItemSql != null && duplicateItemSql.size() > 0){
-                        h.sendEmptyMessage(Constans.STATUS_RESULT_FROM_SQL);
+    private void connectToSql(EditText editTextIp){
+        if(editTextIp.getText().length() != 0 && isNetworkAvailable(getActivity())){
+            setmInputIp(editTextIp.getText().toString());
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    h.sendEmptyMessage(Constans.STATUS_CONNECTING_TO_SQL);
+                    if(mConnectToSQL.testIpSQL(mInputIp)){
+                        duplicateItemSql = mConnectToSQL.connectToSQL(mInputIp, loadDataFromLocalDb());
+                        if(duplicateItemSql != null && duplicateItemSql.size() > 0){
+                            h.sendEmptyMessage(Constans.STATUS_RESULT_FROM_SQL);
+                        }else{
+                            h.sendEmptyMessage(Constans.STATUS_ALL_DATA_SENT_TO_SQL);
+                        }
                     }else{
-                        h.sendEmptyMessage(Constans.STATUS_ALL_DATA_SENT_TO_SQL);
+                        h.sendEmptyMessage(Constans.STATUS_SQL_SERVER_NOT_FOUND);
                     }
-                }else{
-                    h.sendEmptyMessage(Constans.STATUS_SQL_SERVER_NOT_FOUND);
                 }
-            }
-        }).start();
+            }).start();
+        }
     }
 
 
     View.OnKeyListener onPressButton = (View.OnKeyListener) (dialog, keyCode, event) -> {
         if(event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER){
-            connectToSql(mInputIp);
+            connectToSql(mInputIpEditText);
             return true;
         }
         return false;

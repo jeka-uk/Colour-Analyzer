@@ -196,8 +196,18 @@ public class CommonUtils {
     }
 
 
-    public static Bitmap convertByteToImage(byte[] outImage){
+   /* public static Bitmap convertByteToImage(byte[] outImage){
         ByteArrayInputStream imageStream = new ByteArrayInputStream(outImage);
         return BitmapFactory.decodeStream(imageStream);
+    }*/
+
+    public static Bitmap convertByteToImage(byte[] outImage){
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        options.inPreferredConfig = Bitmap.Config.RGB_565;
+        BitmapFactory.decodeByteArray(outImage, 0, outImage.length, options);
+        options.inSampleSize = 5;
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeByteArray(outImage, 0, outImage.length, options);
     }
 }
