@@ -94,6 +94,13 @@
         android:layout_height="match_parent"
         android:id="@+id/response_sql_fragment"/>
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark"
+        android:id="@+id/splash_screen"
+        android:visibility="gone"/>
+
 
 
 </RelativeLayout>

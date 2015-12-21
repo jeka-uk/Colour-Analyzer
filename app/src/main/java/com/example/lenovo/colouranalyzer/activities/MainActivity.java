@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.example.lenovo.colouranalyzer.R;
 import com.example.lenovo.colouranalyzer.common.OnClickTransparent;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements OnClickTransparen
     private CardViewFragment mCdFragment = new CardViewFragment();
     private TransparentColorFragment mTrFragment = new TransparentColorFragment();
     private DataColorFragment mDtFragment = new DataColorFragment();
+    private ImageView mSplashScreen;
 
 
     @Override
@@ -64,7 +66,17 @@ public class MainActivity extends AppCompatActivity implements OnClickTransparen
         mGallery.setOnClickListener(onGallery);
         mMainButtonMenu = (FloatingActionsMenu) findViewById(R.id.multiple_actions_down);
         mMainButtonMenu.setOnFloatingActionsMenuUpdateListener(onTransparent);
+        mSplashScreen = (ImageView) findViewById(R.id.splash_screen);
+        mSplashScreen.setVisibility(View.VISIBLE);
 
+        Runnable mRunableSplash = new Runnable() {
+            @Override
+            public void run() {
+                mSplashScreen.setVisibility(View.GONE);
+            }
+        };
+
+        new Handler().postDelayed(mRunableSplash, 2000);
         deleteAllDataFromDatabase();
 
         setSupportActionBar(mToolbar);
@@ -73,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements OnClickTransparen
         CommonUtils.startFragmentSlideHorizont(mCdFragment, R.id.card_view_fragment, getSupportFragmentManager());
         CommonUtils.startFragmentSlideVerticalDownUp(mDtFragment, R.id.data_color_fragment, getSupportFragmentManager());
     }
+
 
     View.OnClickListener onCamera = new View.OnClickListener() {
         @Override
