@@ -4,6 +4,7 @@ package com.example.lenovo.colouranalyzer.fragments;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,11 +22,14 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.example.lenovo.colouranalyzer.R;
+import com.example.lenovo.colouranalyzer.activities.CaptureActivityAnyOrientation;
 import com.example.lenovo.colouranalyzer.common.Constans;
 import com.example.lenovo.colouranalyzer.common.SetNameItem;
 import com.example.lenovo.colouranalyzer.common.TransImageButton;
 import com.example.lenovo.colouranalyzer.db.ColorItem;
 import com.example.lenovo.colouranalyzer.db.DatabaseHelper;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
@@ -36,7 +40,7 @@ import java.util.List;
 public class NameOfComposition extends Fragment {
 
     private RelativeLayout mCompositionlayout;
-    private TransImageButton mBntOk;
+    private TransImageButton mBntOk, mBarcodeScanner;
     private EditText mNameItem;
     private SetNameItem mSetNameItem;
     private SharedPreferences sPref;
@@ -53,6 +57,9 @@ public class NameOfComposition extends Fragment {
         mBntOk.setOnClickListener(onBntOk);
         mNameItem = (EditText) view.findViewById(R.id.name_item);
         mNameItem.setOnKeyListener(onPressButton);
+        mBarcodeScanner = (TransImageButton) view.findViewById(R.id.barcode_scanner);
+        mBarcodeScanner.setOnClickListener(onBarcodeScanner);
+
 
         return view;
     }
@@ -164,6 +171,36 @@ public class NameOfComposition extends Fragment {
                 }
             }
         });
+    }
+
+
+    View.OnClickListener onBarcodeScanner = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            scanFromFragment();
+        }
+    };
+
+
+    public void scanFromFragment() {
+          IntentIntegrator integrator = IntentIntegrator.forSupportFragment(this);
+          integrator.setCaptureActivity(CaptureActivityAnyOrientation.class);
+          integrator.setOrientationLocked(false);
+          integrator.initiateScan();
+    }
+
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (result != null) {
+            if (result.getContents() == null) {
+
+            } else {
+                mNameItem.setText(result.getContents());
+            }
+        }
     }
 }
 
