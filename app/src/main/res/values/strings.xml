@@ -40,6 +40,7 @@
     <string name="heade_layout_title">Title items were renamed in SQL</string>
     <string name="send_data_to_server_fragment_information_about_task">All data was sent successfully</string>
     <string name="send_data_to_server_fragment_information_about_found_sql"> SQL Server not found or does not respond</string>
+    <string name="name_of_composition_activity_information_lench_name"> Title has more 20 characters</string>
 
     <!-- data in fragment_data_color-->
 

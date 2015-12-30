@@ -91,17 +91,18 @@ public class NameOfComposition extends Fragment {
 
 
     private void saveResult(EditText name){
-        if(name.getText().length() != 0 && existsInputName(name.getText().toString()) == true){
+        if(name.getText().length() != 0 && existsInputName(name.getText().toString()) == true && name.getText().length() < 20){
             sPref = getActivity().getSharedPreferences(Constans.COLOR_ANALYZER, getActivity().MODE_PRIVATE);
             SharedPreferences.Editor ed = sPref.edit();
             ed.putString(Constans.NAME_ITEM, name.getText().toString());
             ed.commit();
             mSetNameItem.addName(name.getText().toString());
-
             if(getFragmentManager() != null)
                 getFragmentManager().popBackStack();
+        }else if(name.getText().length() > 20){
+            informationSelectedUsers(getString(R.string.name_of_composition_activity_information_lench_name));
         }else{
-            informationSelectedUsers();
+            informationSelectedUsers(getString(R.string.name_of_composition_activity_information));
             mNameItem.setText("");
         }
     }
@@ -146,9 +147,9 @@ public class NameOfComposition extends Fragment {
     }
 
 
-    private void informationSelectedUsers() {
+    private void informationSelectedUsers(String information) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(R.string.name_of_composition_activity_information)
+        builder.setMessage(information)
                 .setCancelable(false)
                 .setPositiveButton(R.string.button_information_available_sd, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -185,7 +186,7 @@ public class NameOfComposition extends Fragment {
     public void scanFromFragment() {
           IntentIntegrator integrator = IntentIntegrator.forSupportFragment(this);
           integrator.setCaptureActivity(CaptureActivityAnyOrientation.class);
-          integrator.setOrientationLocked(false);
+          integrator.setOrientationLocked(true);
           integrator.initiateScan();
     }
 

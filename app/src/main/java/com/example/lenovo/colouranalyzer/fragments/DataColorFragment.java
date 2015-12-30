@@ -100,6 +100,7 @@ public class DataColorFragment extends Fragment {
                 }
             }).start();
         }
+
     }
 
 

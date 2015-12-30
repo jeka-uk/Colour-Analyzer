@@ -39,6 +39,7 @@
     <string name="heade_layout_title">Переименованные лоты в SQL</string>
     <string name="send_data_to_server_fragment_information_about_task"> Все данные были успешно отправлены</string>
     <string name="send_data_to_server_fragment_information_about_found_sql"> SQL Сервер не найден или не\n отвечает</string>
+    <string name="name_of_composition_activity_information_lench_name"> Название превышает 20 символов </string>
 
 
 

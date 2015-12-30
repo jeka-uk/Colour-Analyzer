@@ -101,16 +101,12 @@
         android:src="@drawable/btn_ok_green"/>-->
 
     <com.example.lenovo.colouranalyzer.common.TransImageButton
-        android:layout_width="37dp"
-        android:layout_height="30dp"
+        android:layout_width="35dp"
+        android:layout_height="29dp"
         android:id="@+id/barcode_scanner"
-        android:layout_marginTop="152dp"
-        android:layout_marginLeft="297dp"
+        android:layout_marginTop="154dp"
+        android:layout_marginLeft="299dp"
         android:src="@drawable/ic_barcode_scanner"/>
-
-
-
-
 
     
 </RelativeLayout>
