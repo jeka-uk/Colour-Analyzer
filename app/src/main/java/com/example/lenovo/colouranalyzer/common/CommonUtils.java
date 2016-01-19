@@ -213,7 +213,7 @@ public class CommonUtils {
         options.inJustDecodeBounds = true;
         options.inPreferredConfig = Bitmap.Config.RGB_565;
         BitmapFactory.decodeByteArray(outImage, 0, outImage.length, options);
-        options.inSampleSize = 5;
+        options.inSampleSize = 4;
         options.inJustDecodeBounds = false;
         return BitmapFactory.decodeByteArray(outImage, 0, outImage.length, options);
     }

@@ -2,11 +2,6 @@ package com.example.lenovo.colouranalyzer.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.pm.ApplicationInfo;
-import android.graphics.Color;
-import android.graphics.Typeface;
-import android.graphics.drawable.ColorDrawable;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,27 +12,17 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.baoyz.swipemenulistview.SwipeMenu;
-import com.baoyz.swipemenulistview.SwipeMenuCreator;
-import com.baoyz.swipemenulistview.SwipeMenuItem;
-import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.example.lenovo.colouranalyzer.R;
-import com.example.lenovo.colouranalyzer.adapters.DuplicateSqlLineAdapter;
-import com.example.lenovo.colouranalyzer.common.CustomTextView;
-import com.example.lenovo.colouranalyzer.common.OnSwipeTouchListener;
+import com.example.lenovo.colouranalyzer.adapters.DuplicateItemSqlAdapter;
 import com.example.lenovo.colouranalyzer.db.ColorItem;
-
-import java.util.List;
 
 public class ResponseSqlFragment extends Fragment {
 
-    private List<ColorItem> mDataItem;
+
+  //  private ColorItem[] mDataItem;
     private ProgressBar mProgressBar;
     private ListView  mListView;
-    private DuplicateSqlLineAdapter mDuplicateSqlAdapter;
     private ImageButton mButton;
     private RelativeLayout mMainLayout;
     private View mView;
@@ -65,17 +50,15 @@ public class ResponseSqlFragment extends Fragment {
         }
     };
 
+    public void informationDuplicateItem(ColorItem[] duplicateItemSql) {
 
-    public void informationDuplicateItem(List<ColorItem> duplicateItemSql) {
-        this.mDataItem = duplicateItemSql;
         mView = getActivity().getLayoutInflater().inflate(R.layout.header_layout,null);
         mListView.addHeaderView(mView);
 
-        mDuplicateSqlAdapter = new DuplicateSqlLineAdapter(getActivity(), mDataItem);
-        mListView.setAdapter(mDuplicateSqlAdapter);
+        DuplicateItemSqlAdapter mDuplicateSqlLineAdapterNew = new DuplicateItemSqlAdapter(getActivity(), duplicateItemSql);
+        mListView.setAdapter(mDuplicateSqlLineAdapterNew);
         mProgressBar.setVisibility(View.GONE);
     }
-
 
     public void informationSelectedUsers(String titleInformation) {
         builder.setMessage(titleInformation)

@@ -182,13 +182,17 @@ public class SendDataToServer extends Fragment  {
     }
 
 
-
     private void StartResponseSqlFragment(boolean showListView, boolean showInformation, String task){
         if(showListView ==false && showInformation ==false){
             CommonUtils.startFragmentSlideVerticalDownUpWithBackStack(mResponseSqlFragment, R.id.response_sql_fragment, getFragmentManager());
         }
-        if(showListView)
-            mResponseSqlFragment.informationDuplicateItem(duplicateItemSql);
+        if(showListView) {
+            ColorItem[] colorItems = new ColorItem[duplicateItemSql.size()];
+            for (int i = 0; i < duplicateItemSql.size(); i++) {
+                colorItems[i] = duplicateItemSql.get(i);
+            }
+            mResponseSqlFragment.informationDuplicateItem(colorItems);
+        }
         if(showInformation){
             if("task".equals(task)){
                 mResponseSqlFragment.informationSelectedUsers(getString(R.string.send_data_to_server_fragment_information_about_task));
@@ -217,6 +221,7 @@ public class SendDataToServer extends Fragment  {
                     h.sendEmptyMessage(Constans.STATUS_CONNECTING_TO_SQL);
                     if(mConnectToSQL.testIpSQL(mInputIp)){
                         duplicateItemSql = mConnectToSQL.connectToSQL(mInputIp, loadDataFromLocalDb());
+
                         if(duplicateItemSql != null && duplicateItemSql.size() > 0){
                             h.sendEmptyMessage(Constans.STATUS_RESULT_FROM_SQL);
                         }else{
