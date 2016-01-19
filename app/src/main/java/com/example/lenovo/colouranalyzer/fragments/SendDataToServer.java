@@ -187,8 +187,15 @@ public class SendDataToServer extends Fragment  {
         if(showListView ==false && showInformation ==false){
             CommonUtils.startFragmentSlideVerticalDownUpWithBackStack(mResponseSqlFragment, R.id.response_sql_fragment, getFragmentManager());
         }
-        if(showListView)
-            mResponseSqlFragment.informationDuplicateItem(duplicateItemSql);
+
+        if(showListView) {
+            ColorItem[] colorItems = new ColorItem[duplicateItemSql.size()];
+            for (int i = 0; i < duplicateItemSql.size(); i++) {
+                colorItems[i] = duplicateItemSql.get(i);
+            }
+            mResponseSqlFragment.informationDuplicateItem(colorItems);
+        }
+
         if(showInformation){
             if("task".equals(task)){
                 mResponseSqlFragment.informationSelectedUsers(getString(R.string.send_data_to_server_fragment_information_about_task));
