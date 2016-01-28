@@ -158,7 +158,7 @@ public class SendDataToServer extends Fragment  {
     @Override
     public void onPause() {
         super.onPause();
-        sPref = getActivity().getSharedPreferences(Constans.COLOR_ANALYZER, getActivity().MODE_PRIVATE);
+        sPref = getActivity().getSharedPreferences(Constans.PREFS_FILE, getActivity().MODE_PRIVATE);
         SharedPreferences.Editor ed = sPref.edit();
         if (mSaveIpCheckBox.isChecked()) {
             ed.putString(Constans.SAVE_IP_VALUE, mInputIp);
@@ -174,7 +174,7 @@ public class SendDataToServer extends Fragment  {
     @Override
     public void onResume() {
         super.onResume();
-        sPref = getActivity().getSharedPreferences(Constans.COLOR_ANALYZER, getActivity().MODE_PRIVATE);
+        sPref = getActivity().getSharedPreferences(Constans.PREFS_FILE, getActivity().MODE_PRIVATE);
         if(!sPref.equals(null))
             setmInputIp(sPref.getString(Constans.SAVE_IP_VALUE, null));
         mInputIpEditText.setText(sPref.getString(Constans.SAVE_IP_VALUE, null));

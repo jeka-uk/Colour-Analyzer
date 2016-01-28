@@ -7,10 +7,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.InputType;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.example.lenovo.colouranalyzer.R;
@@ -33,33 +31,30 @@ import com.google.zxing.integration.android.IntentResult;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
-import java.sql.SQLDataException;
-import java.sql.SQLException;
 import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class NameOfComposition extends Fragment {
 
-    private RelativeLayout mCompositionlayout;
-    private TransImageButton mBntOk, mBarcodeScanner;
-    private EditText mNameItem;
+    @Bind(R.id.name_item) EditText mNameItem;
     private SetNameItem mSetNameItem;
-    private SharedPreferences sPref;
+    private SharedPreferences mSharedPreferences;
+    private SharedPreferences.Editor mEditor;
     private DatabaseHelper dbHelper;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_name_composition, container, false);
+        ButterKnife.bind(this, view);
 
-        mCompositionlayout = (RelativeLayout) view.findViewById(R.id.name_composition_relative_layout);
-        mCompositionlayout.setOnClickListener(onCompasitionLayout);
-        mBntOk = (TransImageButton) view.findViewById(R.id.bnt_ok);
-        mBntOk.setOnClickListener(onBntOk);
-        mNameItem = (EditText) view.findViewById(R.id.name_item);
+        mSharedPreferences = getActivity().getSharedPreferences(Constans.PREFS_FILE, Context.MODE_PRIVATE);
+        mEditor = mSharedPreferences.edit();
+
         mNameItem.setOnKeyListener(onPressButton);
-        mBarcodeScanner = (TransImageButton) view.findViewById(R.id.barcode_scanner);
-        mBarcodeScanner.setOnClickListener(onBarcodeScanner);
-
 
         return view;
     }
@@ -74,28 +69,11 @@ public class NameOfComposition extends Fragment {
     };
 
 
-    View.OnClickListener onCompasitionLayout = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-        }
-    };
-
-
-    View.OnClickListener onBntOk = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            saveResult(mNameItem);
-        }
-    };
-
 
     private void saveResult(EditText name){
         if(name.getText().length() != 0 && existsInputName(name.getText().toString()) == true && name.getText().length() < 20){
-            sPref = getActivity().getSharedPreferences(Constans.COLOR_ANALYZER, getActivity().MODE_PRIVATE);
-            SharedPreferences.Editor ed = sPref.edit();
-            ed.putString(Constans.NAME_ITEM, name.getText().toString());
-            ed.commit();
+            mEditor.putString(Constans.NAME_ITEM, name.getText().toString());
+            mEditor.commit();
             mSetNameItem.addName(name.getText().toString());
             if(getFragmentManager() != null)
                 getFragmentManager().popBackStack();
@@ -116,7 +94,7 @@ public class NameOfComposition extends Fragment {
     public void onResume() {
         super.onResume();
         mNameItem.requestFocus();
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+      //  getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 
     }
 
@@ -175,14 +153,6 @@ public class NameOfComposition extends Fragment {
     }
 
 
-    View.OnClickListener onBarcodeScanner = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            scanFromFragment();
-        }
-    };
-
-
     public void scanFromFragment() {
           IntentIntegrator integrator = IntentIntegrator.forSupportFragment(this);
           integrator.setCaptureActivity(CaptureActivityAnyOrientation.class);
@@ -202,6 +172,20 @@ public class NameOfComposition extends Fragment {
                 mNameItem.setText(result.getContents());
             }
         }
+    }
+
+    @OnClick(R.id.name_composition_relative_layout)
+    public void onCompasitionLayout(View view){
+    }
+
+    @OnClick(R.id.bnt_ok)
+    public void onBntOk(View view){
+        saveResult(mNameItem);
+    }
+
+    @OnClick(R.id.barcode_scanner)
+    public void onBarcodeScanner(View view){
+        scanFromFragment();
     }
 }
 

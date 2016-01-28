@@ -54,7 +54,6 @@ public class ConnectToSQL {
                 resultSelectFromSql.add(rs.getString(1));
             }
 
-
             PreparedStatement ps = mConnection.prepareStatement(SqlQueryBuilder.INSERT_DATA_TO_SQL);
             PreparedStatement psUpdate = mConnection.prepareStatement(SqlQueryBuilder.UPDATE_DATA_TO_SQL);
             for (int i = 0; i < dataFromLocalDB.size(); i++) {

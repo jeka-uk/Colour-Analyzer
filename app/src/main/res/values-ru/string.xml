@@ -35,7 +35,7 @@
     <string name="message_information_network">Включите передачу пакетных данных или воспользуйтесь Wi-Fi для завершения этого действия.</string>
     <string name="button_ok_information_network">ОК</string>
     <string name="checbox__title_seve_to_sql">Сохранить адрес сервера</string>
-    <string name="send_to_sql_button">Sing in</string>
+    <string name="send_to_sql_button">Отправить данные</string>
     <string name="heade_layout_title">Переименованные лоты в SQL</string>
     <string name="send_data_to_server_fragment_information_about_task"> Все данные были успешно отправлены</string>
     <string name="send_data_to_server_fragment_information_about_found_sql"> SQL Сервер не найден или не\n отвечает</string>

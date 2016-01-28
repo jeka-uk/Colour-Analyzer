@@ -6,6 +6,7 @@
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="230dp"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginBottom="8dp"
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp"
@@ -21,19 +22,19 @@
         android:orientation="vertical"
         android:visibility="visible">
 
-       <ImageView
+        <ImageView
             android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="212dp"
             android:layout_gravity="center|center_vertical"
-            android:gravity="top" />
-
-        <!--android:src="@drawable/blogimage"-->
+            android:gravity="top"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"/>
+
+
     </LinearLayout>
 
 

@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="10dp"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
     android:layout_marginBottom="10dp"
-    android:background="@color/background">
+    android:background="@color/white">
 
     <ProgressBar
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"/>
+
 
 
     <RelativeLayout
@@ -63,7 +65,8 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/hex_format_color"
         android:paddingLeft="@dimen/paddingLeft_data_text_view"
-        android:text="#FF80AB"
+        tools:text="#FF80AB"
+        android:text="--"
         android:textColor="@color/navigationBarColor"
         android:textSize="@dimen/size_text_format_data_color"
         />
@@ -86,10 +89,10 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/rgb_format_color"
         android:paddingLeft="@dimen/paddingLeft_data_text_view"
-        android:text="252,0,220"
+        tools:text="252,0,220"
         android:textColor="@color/navigationBarColor"
         android:textSize="@dimen/size_text_format_data_color"
-        />
+        android:text="--"/>
 
     <TextView
         android:id="@+id/hsv_format_color"
@@ -109,10 +112,10 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/hsv_format_color"
         android:paddingLeft="@dimen/paddingLeft_data_text_view"
-        android:text="307,100,98"
+        tools:text="307,100,98"
         android:textColor="@color/navigationBarColor"
         android:textSize="@dimen/size_text_format_data_color"
-        />
+        android:text="--"/>
 
 
     <TextView
@@ -133,10 +136,10 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/hsl_format_color"
         android:paddingLeft="@dimen/paddingLeft_data_text_view"
-        android:text="307,100,49"
+        tools:text="307,100,49"
         android:textColor="@color/navigationBarColor"
         android:textSize="@dimen/size_text_format_data_color"
-        />
+        android:text="--"/>
 
     <ImageView
         android:layout_width="101dp"
@@ -162,9 +165,10 @@
             android:layout_marginLeft="225dp"
             android:textSize="@dimen/size_text_format_data_color"
             android:textStyle="bold|italic"
-            android:text="Name:"
+            tools:text="Name:"
             android:maxLength="11"
-            android:textColor="@color/navigationBarColor"/>
+            android:textColor="@color/navigationBarColor"
+            android:text="--"/>
 
 
     <!--android:background="#FF80AB"-->
@@ -209,6 +213,8 @@
         android:visibility="gone"/>
 
         </RelativeLayout>
+
+
 
 </RelativeLayout>
 

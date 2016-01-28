@@ -25,6 +25,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
+
         <activity android:name=".activities.CaptureActivityAnyOrientation"
             android:screenOrientation="fullSensor"
             android:stateNotNeeded="true"

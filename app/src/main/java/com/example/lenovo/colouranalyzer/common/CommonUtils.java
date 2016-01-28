@@ -5,7 +5,9 @@ import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Point;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -25,6 +27,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.text.DecimalFormat;
+import java.util.logging.Logger;
 
 
 public class CommonUtils {
@@ -102,11 +105,11 @@ public class CommonUtils {
         r /= size;
         g /= size;
         b /= size;
-        return Color.rgb(r,g,b);
+        return Color.rgb(r, g, b);
     }
 
     public static String getRgbToHex(int color){
-        return String.format( "#%02x%02x%02x", Color.red(color), Color.green(color), Color.blue(color));
+        return String.format("#%02x%02x%02x", Color.red(color), Color.green(color), Color.blue(color));
     }
 
     public static String getRgbToString(int color){

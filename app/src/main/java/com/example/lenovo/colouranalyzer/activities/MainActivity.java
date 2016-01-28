@@ -41,8 +41,8 @@ public class MainActivity extends AppCompatActivity implements OnClickTransparen
 
     private Toolbar mToolbar;
     private FloatingActionButton mCamera, mGallery;
-    private final  static int REQUEST_CAMERA_FOR_NEW_PHOTO = 0;
-    private final static int REQUEST_GALLERY_FOR_NEW_PHOTO = 2;
+    private final  static int REQUEST_CAMERA_FOR_NEW_PHOTO = 3;
+    private final static int REQUEST_GALLERY_FOR_NEW_PHOTO = 4;
     private FloatingActionsMenu mMainButtonMenu;
     private CardViewFragment mCdFragment = new CardViewFragment();
     private TransparentColorFragment mTrFragment = new TransparentColorFragment();
@@ -128,7 +128,6 @@ public class MainActivity extends AppCompatActivity implements OnClickTransparen
             newFragment.setmNeedCalculate(true);
             CommonUtils.startFragmentSlideHorizont(newFragment, R.id.data_color_fragment, getSupportFragmentManager());
         }
-
         if(requestCode == REQUEST_GALLERY_FOR_NEW_PHOTO && resultCode == RESULT_OK){
             Handler mHandler = new Handler() {
                 public void handleMessage(android.os.Message msg) {
@@ -182,29 +181,6 @@ public class MainActivity extends AppCompatActivity implements OnClickTransparen
         CommonUtils.startFragmentSlideVerticalDownUpWithBackStack(newFragment, R.id.name_composition_layout, getSupportFragmentManager());
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
 
     @Override

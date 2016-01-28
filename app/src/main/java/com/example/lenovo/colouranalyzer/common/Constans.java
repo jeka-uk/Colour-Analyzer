@@ -11,7 +11,7 @@ public class Constans {
     public static final File FILE_PATCH = new File(String.valueOf(Environment.getExternalStorageDirectory() + "/" + Constans.FOLDER_NAME + "/" + Constans.NAME_FILE + ".jpg"));
 
     public static final String NAME_ITEM = "name_item";
-    public static final String COLOR_ANALYZER = "color_analyzer";
+    public static final String PREFS_FILE = "color_analyzer";
     public static final String RGB_VALUE = "rgb_value";
     public static final String NAME_DB_SQL = "Color";
     public static final String NAME_TABLE_SQL = "color_table";

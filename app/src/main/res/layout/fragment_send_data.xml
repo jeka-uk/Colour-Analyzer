@@ -100,7 +100,7 @@
         android:layout_height="wrap_content"
         android:text="@string/send_to_sql_button"
         android:textColor="@color/white"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="40dp"
         android:layout_centerHorizontal="true"
         android:textStyle="bold"
         android:layout_below="@+id/checkbox_save_ip"/>

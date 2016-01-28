@@ -36,7 +36,7 @@
     <string name="message_information_network">Turn on mobile data or use Wi-Fi for completion this actions.</string>
     <string name="button_ok_information_network">OK</string>
     <string name="checbox__title_seve_to_sql">Save name of server</string>
-    <string name="send_to_sql_button">Sing in</string>
+    <string name="send_to_sql_button">Send data</string>
     <string name="heade_layout_title">Title items were renamed in SQL</string>
     <string name="send_data_to_server_fragment_information_about_task">All data was sent successfully</string>
     <string name="send_data_to_server_fragment_information_about_found_sql"> SQL Server not found or does not respond</string>
@@ -45,5 +45,10 @@
     <!-- data in fragment_data_color-->
 
     <string name="title_fragment_data_color">Data about average: Color</string>
+
+<!--
+ TODO: Remove or change this placeholder text
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+-->
 
 </resources>
