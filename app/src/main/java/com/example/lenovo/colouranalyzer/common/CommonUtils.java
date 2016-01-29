@@ -11,6 +11,7 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -31,6 +32,7 @@ import java.util.logging.Logger;
 
 
 public class CommonUtils {
+
 
     public static void startFragmentSlideHorizont(Fragment newFragment, int containerViewId, FragmentManager fragmentManager){
         FragmentTransaction frTra = fragmentManager.beginTransaction();
@@ -177,7 +179,7 @@ public class CommonUtils {
         return Uri.fromFile(newFile);
     }
 
-    public static Uri saveToInternalStorage(Bitmap bitmapImage){
+    public static Uri saveToInternalStorage(Context context, Uri uriBitmap){
         if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
             return null;
         File path = new File (Environment.getExternalStorageDirectory(), Constans.FOLDER_NAME);
@@ -188,9 +190,12 @@ public class CommonUtils {
         }
         FileOutputStream fos = null;
         try {
+            Bitmap bitmapImage = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uriBitmap);
             fos = new FileOutputStream(Constans.FILE_PATCH);
             bitmapImage.compress(Bitmap.CompressFormat.JPEG, 75, fos);
             fos.close();
+        } catch (IOException e){
+            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -65,7 +65,9 @@
             fab:fab_addButtonColorPressed="@color/colorPrimaryDark"
             fab:fab_icon="@drawable/ic_gallery"
             fab:fab_size="mini"
-            fab:fab_title="@string/main_activity_button_gallery"/>
+            fab:fab_title="@string/main_activity_button_gallery"
+            fab:fab_colorNormal="@android:color/white"
+            fab:fab_colorPressed="@color/white_pressed_trasparent"/>
 
         <cc.trity.floatingactionbutton.FloatingActionButton
             android:id="@+id/camera"
@@ -75,7 +77,9 @@
             fab:fab_addButtonColorPressed="@color/colorPrimaryDark"
             fab:fab_size="mini"
             fab:fab_icon="@drawable/ic_camera"
-            fab:fab_title="@string/main_activity_button_camera"/>
+            fab:fab_title="@string/main_activity_button_camera"
+            fab:fab_colorNormal="@android:color/white"
+            fab:fab_colorPressed="@color/white_pressed_trasparent"/>
 
     </cc.trity.floatingactionbutton.FloatingActionsMenu>
 

@@ -27,6 +27,7 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
 import java.io.File;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -149,8 +150,6 @@ public class DataColorFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
-
         if(mSaveData){
             saveDataToDb(mSharedPreferences.getString(Constans.NAME_ITEM, "Name"), mColorRGB, CommonUtils.getRgbToHex(mColorRGB), CommonUtils.convertImageToByte(setImage(Constans.FILE_PATCH)));
         }
@@ -162,4 +161,5 @@ public class DataColorFragment extends Fragment {
         final RuntimeExceptionDao<ColorItem, Integer> colorDao = dbHelper.getColorRuntimeExceptionDao();
         colorDao.create(new ColorItem(nameValue, rgbValue, hexValue, imageValue));
     }
+
 }

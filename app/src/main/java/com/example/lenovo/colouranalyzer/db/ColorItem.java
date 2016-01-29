@@ -14,7 +14,8 @@ public class ColorItem {
     private int id;
     @DatabaseField
     private String addDateItem;
-    @DatabaseField(uniqueCombo = true)
+    //@DatabaseField(uniqueCombo = true)
+    @DatabaseField
     private String nameItem;
     @DatabaseField
     private int rgbItem;

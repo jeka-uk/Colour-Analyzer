@@ -13,8 +13,6 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -34,39 +32,34 @@ import com.j256.ormlite.dao.RuntimeExceptionDao;
 import java.io.IOException;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cc.trity.floatingactionbutton.FloatingActionButton;
 import cc.trity.floatingactionbutton.FloatingActionsMenu;
 
 public class MainActivity extends AppCompatActivity implements OnClickTransparent, SetNameItem{
 
-    private Toolbar mToolbar;
-    private FloatingActionButton mCamera, mGallery;
+    @Bind(R.id.toolbar) Toolbar mToolbar;
+    @Bind(R.id.camera)FloatingActionButton mCamera;
+    @Bind(R.id.gallery) FloatingActionButton mGallery;
+    @Bind(R.id.multiple_actions_down)FloatingActionsMenu mMainButtonMenu;
+    @Bind(R.id.splash_screen) ImageView mSplashScreen;
+
     private final  static int REQUEST_CAMERA_FOR_NEW_PHOTO = 3;
     private final static int REQUEST_GALLERY_FOR_NEW_PHOTO = 4;
-    private FloatingActionsMenu mMainButtonMenu;
+
     private CardViewFragment mCdFragment = new CardViewFragment();
     private TransparentColorFragment mTrFragment = new TransparentColorFragment();
     private DataColorFragment mDtFragment = new DataColorFragment();
-    private ImageView mSplashScreen;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mCamera = (FloatingActionButton) findViewById(R.id.camera);
-        mCamera.setColorNormal(Color.WHITE);
-        mCamera.setColorPressed(R.color.white_pressed_trasparent);
-        mCamera.setOnClickListener(onCamera);
-        mGallery = (FloatingActionButton) findViewById(R.id.gallery);
-        mGallery.setColorNormal(Color.WHITE);
-        mGallery.setColorPressed(R.color.white_pressed_trasparent);
-        mGallery.setOnClickListener(onGallery);
-        mMainButtonMenu = (FloatingActionsMenu) findViewById(R.id.multiple_actions_down);
+        ButterKnife.bind(this);
+        
         mMainButtonMenu.setOnFloatingActionsMenuUpdateListener(onTransparent);
-        mSplashScreen = (ImageView) findViewById(R.id.splash_screen);
         mSplashScreen.setVisibility(View.VISIBLE);
 
         Runnable mRunableSplash = new Runnable() {
@@ -86,35 +79,30 @@ public class MainActivity extends AppCompatActivity implements OnClickTransparen
         CommonUtils.startFragmentSlideVerticalDownUp(mDtFragment, R.id.data_color_fragment, getSupportFragmentManager());
     }
 
-
-    View.OnClickListener onCamera = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Uri mUri = CommonUtils.generateFileUri();
-            if (mUri == null) {
-                informationSelectedUsers();
-                return;
-            }
-            Intent takePhotoFromCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            takePhotoFromCamera.putExtra(MediaStore.EXTRA_OUTPUT, mUri);
-            startActivityForResult(takePhotoFromCamera, REQUEST_CAMERA_FOR_NEW_PHOTO);
+    @OnClick(R.id.camera)
+    public void onCamera(View view){
+        Uri mUri = CommonUtils.generateFileUri();
+        if (mUri == null) {
+            informationSelectedUsers();
+            return;
         }
-    };
+        Intent takePhotoFromCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        takePhotoFromCamera.putExtra(MediaStore.EXTRA_OUTPUT, mUri);
+        startActivityForResult(takePhotoFromCamera, REQUEST_CAMERA_FOR_NEW_PHOTO);
+    }
 
 
-    View.OnClickListener onGallery = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Uri mUri = CommonUtils.generateFileUri();
-            if (mUri == null) {
-                informationSelectedUsers();
-                return;
-            }
-            Intent takePhotoFromGallery = new Intent(Intent.ACTION_PICK);
-            takePhotoFromGallery.setType("image/*");
-            startActivityForResult(takePhotoFromGallery, REQUEST_GALLERY_FOR_NEW_PHOTO);
+    @OnClick(R.id.gallery)
+    public void onGallery(View view){
+        Uri mUri = CommonUtils.generateFileUri();
+        if (mUri == null) {
+            informationSelectedUsers();
+            return;
         }
-    };
+        Intent takePhotoFromGallery = new Intent(Intent.ACTION_PICK);
+        takePhotoFromGallery.setType("image/*");
+        startActivityForResult(takePhotoFromGallery, REQUEST_GALLERY_FOR_NEW_PHOTO);
+    }
 
 
     @Override
@@ -122,29 +110,25 @@ public class MainActivity extends AppCompatActivity implements OnClickTransparen
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == REQUEST_CAMERA_FOR_NEW_PHOTO && resultCode == RESULT_OK){
-            startNameOfCompasition();
-            CommonUtils.startFragmentSlideHorizont(new CardViewFragment(), R.id.card_view_fragment, getSupportFragmentManager());
-            DataColorFragment newFragment = new DataColorFragment();
-            newFragment.setmNeedCalculate(true);
-            CommonUtils.startFragmentSlideHorizont(newFragment, R.id.data_color_fragment, getSupportFragmentManager());
+            startNameOfComposition();
+            startDataColorFragment();
+
         }
         if(requestCode == REQUEST_GALLERY_FOR_NEW_PHOTO && resultCode == RESULT_OK){
             Handler mHandler = new Handler() {
                 public void handleMessage(android.os.Message msg) {
                     if(msg != null)
-                    CommonUtils.startFragmentSlideHorizont(new CardViewFragment(), R.id.card_view_fragment, getSupportFragmentManager());
-                    DataColorFragment newFragment = new DataColorFragment();
-                    newFragment.setmNeedCalculate(true);
-                    CommonUtils.startFragmentSlideHorizont(newFragment, R.id.data_color_fragment, getSupportFragmentManager());
+                        startDataColorFragment();
                 };
             };
-                new Thread(new Runnable() {
-                    public void run() {
-                        startNameOfCompasition();
-                        CommonUtils.saveToInternalStorage(uriToBitmap(data.getData()));
-                        mHandler.sendEmptyMessage(5);
-                    }
-                }).start();
+            new Thread(new Runnable() {
+                public void run() {
+                    startNameOfComposition();
+                    Uri imageUri = data.getData();
+                    CommonUtils.saveToInternalStorage(MainActivity.this, imageUri);
+                    mHandler.sendEmptyMessage(5);
+                }
+            }).start();
         }
     }
 
@@ -152,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements OnClickTransparen
     FloatingActionsMenu.OnFloatingActionsMenuUpdateListener onTransparent = new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
         @Override
         public void onMenuExpanded() {
-            startTranspa();
+            startTransparent();
         }
 
         @Override
@@ -168,17 +152,25 @@ public class MainActivity extends AppCompatActivity implements OnClickTransparen
     }
 
 
-    private void startTranspa(){
+    private void startTransparent(){
         TransparentColorFragment newFragment = new TransparentColorFragment();
         newFragment.setmCloseTranspare(this);
         CommonUtils.startFragmentTraspered(newFragment, R.id.transparent_color_fragment, getSupportFragmentManager());
     }
 
 
-    private void startNameOfCompasition(){
+    private void startNameOfComposition(){
         NameOfComposition newFragment = new NameOfComposition();
         newFragment.setmSetNameItem(this);
         CommonUtils.startFragmentSlideVerticalDownUpWithBackStack(newFragment, R.id.name_composition_layout, getSupportFragmentManager());
+    }
+
+
+    private void startDataColorFragment() {
+        CommonUtils.startFragmentSlideHorizont(new CardViewFragment(), R.id.card_view_fragment, getSupportFragmentManager());
+        DataColorFragment newFragment = new DataColorFragment();
+        newFragment.setmNeedCalculate(true);
+        CommonUtils.startFragmentSlideHorizont(newFragment, R.id.data_color_fragment, getSupportFragmentManager());
     }
 
 
@@ -188,18 +180,6 @@ public class MainActivity extends AppCompatActivity implements OnClickTransparen
         super.onPause();
         closeMainButtonMenu();
     }
-
-
-    private Bitmap uriToBitmap(Uri selectedFileUri) {
-        Bitmap newBitmap = null;
-        try {
-            newBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedFileUri);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return newBitmap;
-    }
-
 
     @Override
     public void onClick() {
