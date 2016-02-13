@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.location.Address;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -27,6 +28,8 @@ import com.example.lenovo.colouranalyzer.common.TransImageButton;
 import com.example.lenovo.colouranalyzer.db.ColorItem;
 import com.example.lenovo.colouranalyzer.db.ConnectToSQL;
 import com.example.lenovo.colouranalyzer.db.DatabaseHelper;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
@@ -46,12 +49,13 @@ public class SendDataToServer extends Fragment  {
     private List<ColorItem> duplicateItemSql;
 
 
-
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_send_data, container, false);
+
+        AdView mAdView = (AdView) view.findViewById(R.id.adView);
+        mAdView.loadAd(new AdRequest.Builder().build());
 
         mCompositionlayout = (RelativeLayout) view.findViewById(R.id.send_data_relative_layout);
         mCompositionlayout.setOnClickListener(onCompasitionLayout);

@@ -26,7 +26,7 @@
             android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="212dp"
-            android:layout_gravity="center|center_vertical"
+            android:layout_gravity="center|center_vertical|center_horizontal"
             android:gravity="top"/>
 
         <RelativeLayout

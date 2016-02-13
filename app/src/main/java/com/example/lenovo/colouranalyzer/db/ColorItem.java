@@ -14,8 +14,7 @@ public class ColorItem {
     private int id;
     @DatabaseField
     private String addDateItem;
-    //@DatabaseField(uniqueCombo = true)
-    @DatabaseField
+    @DatabaseField(uniqueCombo = true)
     private String nameItem;
     @DatabaseField
     private int rgbItem;
@@ -35,7 +34,7 @@ public class ColorItem {
         this.addDateItem = getDate();
     }
 
-    private String getDate(){
+    public String getDate(){
         SimpleDateFormat dataFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
         return dataFormat.format(new Date());
     }
@@ -63,5 +62,29 @@ public class ColorItem {
 
     public byte[] getImageItem() {
         return imageItem;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setRgbItem(int rgbItem) {
+        this.rgbItem = rgbItem;
+    }
+
+    public void setAddDateItem(String addDateItem) {
+        this.addDateItem = addDateItem;
+    }
+
+    public void setNameItem(String nameItem) {
+        this.nameItem = nameItem;
+    }
+
+    public void setHexItem(String hexItem) {
+        this.hexItem = hexItem;
+    }
+
+    public void setImageItem(byte[] imageItem) {
+        this.imageItem = imageItem;
     }
 }

@@ -4,18 +4,13 @@ package com.example.lenovo.colouranalyzer.fragments;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Point;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.example.lenovo.colouranalyzer.R;
@@ -55,10 +50,18 @@ public class CardViewFragment extends Fragment implements SetNameItem {
         BitmapFactory.decodeFile(String.valueOf(patch), options);
 
         int imageWidth = options.outWidth;
-        int cooficient = imageWidth/getWindowWidth() + 1;
+        int displayWidth = CommonUtils.getDisplayWidth(getActivity());
+        int coefficient = 0;
 
-        options.inSampleSize = cooficient;
+        if(imageWidth > displayWidth){
+            coefficient = imageWidth/displayWidth + 1;
+        }else{
+            coefficient = 0;
+        }
+
+        options.inSampleSize = coefficient;
         options.inJustDecodeBounds = false;
+
         return BitmapFactory.decodeFile(String.valueOf(patch), options);
     }
 
@@ -76,6 +79,7 @@ public class CardViewFragment extends Fragment implements SetNameItem {
     @OnClick(R.id.imageView)
     public void startCropFra(View view){
         Crop.of(Uri.fromFile(Constans.FILE_PATCH), Uri.fromFile(Constans.FILE_PATCH)).asSquare().start(getActivity(), this);
+      //  startNameOfComposition();
     }
 
     @Override
@@ -83,12 +87,13 @@ public class CardViewFragment extends Fragment implements SetNameItem {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == Crop.REQUEST_CROP && data != null) {
-            startNameOfCompasition();
+           // startNameOfComposition();
+            startDataColorFragment();
             mImageView.setImageBitmap(setImage(Constans.FILE_PATCH));
         }
     }
 
-    private void startNameOfCompasition() {
+    private void startNameOfComposition() {
         NameOfComposition newFragment = new NameOfComposition();
         newFragment.setmSetNameItem(this);
         CommonUtils.startFragmentSlideVerticalDownUpWithBackStack(newFragment, R.id.name_composition_layout, getFragmentManager());
@@ -96,14 +101,27 @@ public class CardViewFragment extends Fragment implements SetNameItem {
 
     @Override
     public void addName(String name) {
+       /* if(!name.equals(null)){
+            Crop.of(Uri.fromFile(Constans.FILE_PATCH), Uri.fromFile(Constans.FILE_PATCH)).asSquare().start(getActivity(), this);
+        }*/
+        //startDataColorFragment();
+    }
+
+    private void startDataColorFragment() {
         DataColorFragment newFragment = new DataColorFragment();
-        newFragment.setmNeedCalculate(true);
-        newFragment.setmSaveData(true);
+        newFragment.setNeedCalculate(true);
+        newFragment.setUpdateData(true);
+      //  newFragment.setSaveData(true);
         CommonUtils.startFragmentSlideHorizont(newFragment, R.id.data_color_fragment, getFragmentManager());
     }
 
+    @Override
+    public void choiceCameraOrGallery(boolean choice) {
 
-    private int getWindowWidth(){
+    }
+
+
+   /* private int getDisplayWidth(){
         int mWindowWidth;
         Point size = new Point();
         WindowManager w = getActivity().getWindowManager();
@@ -115,5 +133,5 @@ public class CardViewFragment extends Fragment implements SetNameItem {
             mWindowWidth = d.getWidth();
         }
         return mWindowWidth;
-    }
+    }*/
 }

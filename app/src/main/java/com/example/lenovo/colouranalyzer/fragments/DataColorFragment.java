@@ -1,8 +1,10 @@
 package com.example.lenovo.colouranalyzer.fragments;
 
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -10,7 +12,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,9 +25,12 @@ import com.example.lenovo.colouranalyzer.common.Constans;
 import com.example.lenovo.colouranalyzer.db.ColorItem;
 import com.example.lenovo.colouranalyzer.db.DatabaseHelper;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
+import com.j256.ormlite.stmt.UpdateBuilder;
 
 import java.io.File;
+import java.sql.SQLException;
 import java.util.List;
 
 import butterknife.Bind;
@@ -47,10 +51,10 @@ public class DataColorFragment extends Fragment {
     private boolean mNeedCalculate = false;
     private boolean mSaveData = false;
     private int mColorRGB;
-    private DatabaseHelper dbHelper;
-
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
+    private DatabaseHelper dbHelper;
+    private boolean mUpdateData = false;
 
     @Nullable
     @Override
@@ -65,8 +69,8 @@ public class DataColorFragment extends Fragment {
         if(!mSharedPreferences.equals(null)){
             int retrieveColorRGB = mSharedPreferences.getInt(Constans.RGB_VALUE, 0);
             setmColorRGB(retrieveColorRGB);
-            String retriveName = mSharedPreferences.getString(Constans.NAME_ITEM, "Name");
-            mNameItem.setText(retriveName);
+            String retrieveName = mSharedPreferences.getString(Constans.NAME_ITEM, "Name");
+            mNameItem.setText(retrieveName);
             setColor(mColorRGB);
         }
 
@@ -81,11 +85,11 @@ public class DataColorFragment extends Fragment {
     }
 
 
-    public void setmNeedCalculate(boolean mNeedCalculate) {
+    public void setNeedCalculate(boolean mNeedCalculate) {
         this.mNeedCalculate = mNeedCalculate;
     }
 
-    public void setmSaveData(boolean mSaveData){
+   public void setSaveData(boolean mSaveData){
         this.mSaveData = mSaveData;
     }
 
@@ -96,6 +100,10 @@ public class DataColorFragment extends Fragment {
                 if(msg != null)
                     setColor(msg.what);
                     setmColorRGB(msg.what);
+
+                mEditor.putInt(Constans.RGB_VALUE, mColorRGB);
+                mEditor.commit();
+                saveDataToDb(mSharedPreferences.getString(Constans.NAME_ITEM, "Name"), mColorRGB, CommonUtils.getRgbToHex(mColorRGB), CommonUtils.convertImageToByte(setImage(Constans.FILE_PATCH)));
                 mdataLayout.setVisibility(View.VISIBLE);
             };
         };
@@ -115,6 +123,8 @@ public class DataColorFragment extends Fragment {
             mHsvColor.setText(CommonUtils.getRgbToHsv(RGB));
             mSampleColor.setBackgroundColor(Color.parseColor(String.format(CommonUtils.getRgbToHex(RGB))));
         mHslColor.setText(CommonUtils.getRgbToHsl(RGB));
+
+
     }
 
     @OnClick(R.id.send_result)
@@ -128,8 +138,20 @@ public class DataColorFragment extends Fragment {
         options.inJustDecodeBounds = true;
         options.inPreferredConfig = Bitmap.Config.RGB_565;
         BitmapFactory.decodeFile(String.valueOf(patch), options);
-        options.inSampleSize = 4;
+
+        int imageWidth = options.outWidth;
+        int displayWidth = CommonUtils.getDisplayWidth(getActivity());
+        int coefficient = 0;
+
+        if(imageWidth > displayWidth){
+            coefficient = imageWidth/displayWidth + 1;
+        }else{
+            coefficient = 0;
+        }
+
+        options.inSampleSize = coefficient;
         options.inJustDecodeBounds = false;
+
         return BitmapFactory.decodeFile(String.valueOf(patch), options);
     }
 
@@ -137,8 +159,7 @@ public class DataColorFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        mEditor.putInt(Constans.RGB_VALUE, mColorRGB);
-        mEditor.commit();
+
     }
 
 
@@ -150,16 +171,62 @@ public class DataColorFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(mSaveData){
-            saveDataToDb(mSharedPreferences.getString(Constans.NAME_ITEM, "Name"), mColorRGB, CommonUtils.getRgbToHex(mColorRGB), CommonUtils.convertImageToByte(setImage(Constans.FILE_PATCH)));
-        }
+
     }
 
 
     private void saveDataToDb(String nameValue, int rgbValue, String hexValue, byte[] imageValue){
+        if(mUpdateData && existsInputName() != 0){
+            update(existsInputName());
+        }else{
+            dbHelper = OpenHelperManager.getHelper(getActivity(), DatabaseHelper.class);
+            final RuntimeExceptionDao<ColorItem, Integer> colorDao = dbHelper.getColorRuntimeExceptionDao();
+            colorDao.create(new ColorItem(nameValue, rgbValue, hexValue, imageValue));
+        }
+
+    }
+
+    private void update(int id){
+        int rgbValue;
+        String hexValue;
+        byte[] imageValue;
+
+        rgbValue = mColorRGB;
+        hexValue = CommonUtils.getRgbToHex(mColorRGB);
+        imageValue = CommonUtils.convertImageToByte(setImage(Constans.FILE_PATCH));
+
+
+
+        dbHelper = OpenHelperManager.getHelper(getActivity(), DatabaseHelper.class);
+        ColorItem colorItem = null;
+        colorItem = dbHelper.getColorRuntimeExceptionDao().queryForId(id);
+        colorItem.setRgbItem(rgbValue);
+        colorItem.setHexItem(hexValue);
+        colorItem.setImageItem(imageValue);
+        colorItem.setAddDateItem(colorItem.getDate());
+        dbHelper.getColorRuntimeExceptionDao().update(colorItem);
+
+    }
+
+    public void setUpdateData(boolean mUpdateData) {
+        this.mUpdateData = mUpdateData;
+    }
+
+    private int existsInputName(){
+        String name;
+        name = mSharedPreferences.getString(Constans.NAME_ITEM, "Name");
         dbHelper = OpenHelperManager.getHelper(getActivity(), DatabaseHelper.class);
         final RuntimeExceptionDao<ColorItem, Integer> colorDao = dbHelper.getColorRuntimeExceptionDao();
-        colorDao.create(new ColorItem(nameValue, rgbValue, hexValue, imageValue));
+        List<ColorItem> result = colorDao.queryForAll();
+        for (int i = 0; i <result.size() ; i++) {
+            if(name.equals(result.get(i).getNameItem())){
+                int idItem;
+                idItem = result.get(i).getId();
+                return idItem;
+            }
+        }
+        return 0;
     }
+
 
 }

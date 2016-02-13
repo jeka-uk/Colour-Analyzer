@@ -44,6 +44,7 @@ public class NameOfComposition extends Fragment {
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
     private DatabaseHelper dbHelper;
+    private boolean mChoiceCameraOrGallery;
 
     @Nullable
     @Override
@@ -75,14 +76,16 @@ public class NameOfComposition extends Fragment {
             mEditor.putString(Constans.NAME_ITEM, name.getText().toString());
             mEditor.commit();
             mSetNameItem.addName(name.getText().toString());
+            mSetNameItem.choiceCameraOrGallery(mChoiceCameraOrGallery);
             if(getFragmentManager() != null)
                 getFragmentManager().popBackStack();
         }else if(name.getText().length() > 20){
             informationSelectedUsers(getString(R.string.name_of_composition_activity_information_lench_name));
         }else{
-            informationSelectedUsers(getString(R.string.name_of_composition_activity_information));
-            mNameItem.setText("");
-        }
+           informationSelectedUsers(getString(R.string.name_of_composition_activity_information));
+           mNameItem.setText("");
+
+           }
     }
 
 
@@ -94,8 +97,6 @@ public class NameOfComposition extends Fragment {
     public void onResume() {
         super.onResume();
         mNameItem.requestFocus();
-      //  getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-
     }
 
     private void hideKeyboard(){
@@ -187,5 +188,10 @@ public class NameOfComposition extends Fragment {
     public void onBarcodeScanner(View view){
         scanFromFragment();
     }
+
+    public void setChoiceCameraOrGallery(boolean mChoiceCameraOrGallery) {
+        this.mChoiceCameraOrGallery = mChoiceCameraOrGallery;
+    }
+
 }
 

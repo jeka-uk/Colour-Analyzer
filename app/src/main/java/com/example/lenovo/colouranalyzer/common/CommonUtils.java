@@ -15,15 +15,19 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.example.lenovo.colouranalyzer.R;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -180,7 +184,8 @@ public class CommonUtils {
     }
 
     public static Uri saveToInternalStorage(Context context, Uri uriBitmap){
-        if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
+
+     if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
             return null;
         File path = new File (Environment.getExternalStorageDirectory(), Constans.FOLDER_NAME);
         if (! path.exists()){
@@ -216,6 +221,7 @@ public class CommonUtils {
         return BitmapFactory.decodeStream(imageStream);
     }*/
 
+
     public static Bitmap convertByteToImage(byte[] outImage){
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
@@ -225,4 +231,12 @@ public class CommonUtils {
         options.inJustDecodeBounds = false;
         return BitmapFactory.decodeByteArray(outImage, 0, outImage.length, options);
     }
+
+    public static int getDisplayWidth(Context mContext){
+        DisplayMetrics metrics = mContext.getResources().getDisplayMetrics();
+        final int w = metrics.widthPixels;
+        final int h = metrics.heightPixels;
+        return w;
+    }
+
 }
